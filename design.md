@@ -1,25 +1,24 @@
----
-version: "neuform-top-creators-featured"
-name: "Premium Agency Portal - Technical Split"
-description: "Premium Agency Feature Section is designed for highlighting product capabilities and value points. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for component libraries and responsive product interfaces."
+version: "neuform-staff-featured-2026-05-22"
+name: "NeuroSync | Master Your Mind"
+description: "Neurosync Master Feature Section is designed for highlighting product capabilities and value points. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for component libraries and responsive product interfaces."
 colors:
-  primary: "#92CFF2"
-  secondary: "#241208"
-  accent: "#F47C59"
-  background: "#F47C59"
-  surface: "#241208"
-  text-primary: "#FFFFFF"
-  text-secondary: "#A1A1AA"
-  border: "#27272A"
+  primary: "#CC8066"
+  secondary: "#FFFFFF"
+  accent: "#334155"
+  background: "#FFFFFF"
+  surface: "#191C21"
+  text-primary: "#111827"
+  text-secondary: "#4B5563"
+  border: "#E5E7EB"
 typography:
   display-lg:
-    fontFamily: "Newsreader"
+    fontFamily: "Inter"
     fontSize: "64px"
     fontWeight: 500
     lineHeight: "1.04"
     letterSpacing: "0"
   body-md:
-    fontFamily: "Newsreader"
+    fontFamily: "Inter"
     fontSize: "16px"
     fontWeight: 400
     lineHeight: "1.6"
@@ -44,39 +43,38 @@ components:
   button:
     background: "Use primary or accent colors for the main action"
     radius: "Use the control or pill radius based on the source HTML"
----
-# Premium Agency Portal - Technical Split
-Source: Neuform Featured templates from top creators. Author: Meng To (@mengto). Views: 469; favorites: 22; remixes: 17.
-Tags: feature, section, animated.
-## Overview
-Premium Agency Feature Section is designed for highlighting product capabilities and value points. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for component libraries and responsive product interfaces.
+***NeuroSync | Master Your Mind
+Source: Neuform staff featured templates. Author: Meng To (@mengto). Views: 1247; favorites: 51; remixes: 35.
+Tags: feature, section, animated, cta, bento, charts.
+Overview
+Neurosync Master Feature Section is designed for highlighting product capabilities and value points. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for component libraries and responsive product interfaces.
 
-SYS.01 // Topo_Eval Coords: 34.05°N Shape dictates the user journey. Every touchpoint functions as measurable feedback. Geometric precision accelerates the conversion path. SYS.02 // Logic Status: Secure Unified framewo…
-## Composition
+NeuroSync Features Integrations Enterprise Pricing Get Started Think Faster. Master Your Mind. Cognitive Load Tracking Real-time mental bandwidth metrics. Neural Pathway Mapping Visualizing thought patterns and flow sta…
+Composition
 Use the attached HTML reference as the source of truth. Preserve the visible hierarchy, first-screen composition, section rhythm, density, and interaction tone before adapting copy or content.
-Key visible headings include: Shape dictates the user journey.; Unified framework. Complete state coherence..
-## Colors
-Anchor the palette in primary #92CFF2, secondary #241208, accent #F47C59, background #F47C59, surface #241208, text-primary #FFFFFF. Keep background, surface, text, and border roles distinct so generated layouts retain the same contrast pattern as the source.
-## Typography
-Use Newsreader for display moments and Newsreader for body copy unless the HTML clearly demands a compatible fallback. Labels and technical metadata should use JetBrains Mono or an equivalent mono face.
-## Layout
+Key visible headings include: Think Faster. Master Your Mind.; Cognitive Load Tracking; Neural Pathway Mapping; Adaptive Focus Protocols.
+Colors
+Anchor the palette in primary #CC8066, secondary #FFFFFF, accent #334155, background #FFFFFF, surface #191C21, text-primary #111827. Keep background, surface, text, and border roles distinct so generated layouts retain the same contrast pattern as the source.
+Typography
+Use Inter for display moments and Inter for body copy unless the HTML clearly demands a compatible fallback. Labels and technical metadata should use JetBrains Mono or an equivalent mono face.
+Layout
 Keep spacing deliberate and stable. Favor the same grid direction, max-width behavior, card density, and responsive stacking seen in the HTML. Do not replace distinctive source structures with generic SaaS sections.
-## Components
-Cards, buttons, badges, navigation, and repeated blocks should preserve the source geometry, border treatment, and hover feel.
-## Motion
+Components
+Dashboard, chart, and data panels should preserve their compact operational hierarchy, nested surfaces, and metric emphasis.
+Motion
 Preserve existing motion cues such as masked reveals, staggered entrance, hover lift, scroll-triggered transitions, and ambient movement. Keep easing smooth and restrained.
-## WebGL & Effects
+WebGL & Effects
 
 If the source includes canvas, WebGL, Three.js, gradients, particles, or atmospheric effects, rebuild them as supporting layers behind the content. Keep effects performant, responsive, and secondary to the interface.
 
-## Guardrails
-- Do not flatten the source into a generic card grid.
-- Do not swap the color mode unless the source clearly supports it.
-- Preserve the first viewport signal, focal object, and visual density.
-- Keep buttons, cards, and badges aligned to the same radius and border language.
+Guardrails
+Do not flatten the source into a generic card grid.
+Do not swap the color mode unless the source clearly supports it.
+Preserve the first viewport signal, focal object, and visual density.
+Keep buttons, cards, and badges aligned to the same radius and border language.
 ## Provenance
-Imported 2026-09-09 from `premium-agency-portal-technical-split-2-DESIGN.md` (Neuform template by Meng To) as the locked design system for the Forma site. Applied as a visual layer only: page structure (Photographic macrostructure, N9 nav, F3 services sheet, about diptych, contact form, Ft6 footer), layout, and the no-motion stance were kept as built. Tokens are mirrored in `tokens.css`.
+Applied 2026-09-09 to the Forma site as a visual layer over the Hallmark Manifesto build. Structure, layout and motion unchanged. Tokens mirrored in `tokens.css`.
 
 ## Exports
 ### tokens.css
-See `tokens.css` at the project root. Colour roles: `--color-paper` = background (page ground), `--color-ink` = secondary (text on the coral ground), `--color-band` = surface (contact band), `--color-band-ink` = text-primary, `--color-band-neutral` = text-secondary, `--color-band-rule` = border, `--color-primary` = primary (buttons, band links), `--color-accent` = accent.
+See `tokens.css` at the project root. Roles: `--color-paper` = background, `--color-ink` = text-primary, `--color-neutral` = text-secondary, `--color-rule` = border, `--color-band` = surface (bleed sections, white text), `--color-primary` = primary (actions), `--color-accent` = accent (highlight block, hover).
