@@ -1,0 +1,1 @@
+{ "date": "2026-09-09", "framework": "Next.js 16 app router", "fonts": "Bricolage Grotesque + Geist + Geist Mono (next/font)", "palette": "OKLCH tokens in tokens.css mapped into Tailwind v4 @theme", "motion": "framer-motion, single sweep reveal", "spacing": "--space-* 4pt scale", "design_md": "present, ignored at user request" }
