@@ -13,6 +13,10 @@ import ContactForm from "./ContactForm";
 // positions use the same unit, so 1 = one screen of scrolling.
 const LENGTH = 9.1;
 
+// Where #about and #contact land, in screens along the timeline: the About chapter
+// fully written in, and the contact form in place after any short-screen scroll.
+const ANCHORS = { about: 5.1, contact: 8.9 };
+
 const paragraphs = [
   "If you're reading this, you probably have a plot of land, an old house, or a picture in your head that won't leave you alone. Every project I've worked on started exactly there.",
   "Forma is just me. The person who walks your site is the one who draws the first line, and the one who picks up when the builder calls on a Friday.",
@@ -383,6 +387,12 @@ export default function Letter() {
           </div>
         </div>
       </div>
+
+      {/* Jump targets. An element (t - 1) screens into the section sits at the top of the
+          viewport exactly when the timeline is at t (it starts one screen early). */}
+      {Object.entries(ANCHORS).map(([id, t]) => (
+        <span key={id} id={id} aria-hidden="true" className="pointer-events-none absolute left-0 h-px w-px" style={{ top: `${(t - 1) * 100}vh` }} />
+      ))}
     </section>
   );
 }

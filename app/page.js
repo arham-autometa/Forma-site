@@ -2,8 +2,7 @@ import Footer from "@/components/Footer";
 import Letter from "@/components/Letter";
 import World from "@/components/World";
 
-// The scroll-world film is the landing page, followed by the studio letter;
-// the practice pages live at /studio.
+// The whole site: the scroll-world film, then the studio letter (About and contact).
 export default function Home() {
   return (
     <>

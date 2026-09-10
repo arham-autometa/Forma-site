@@ -17,7 +17,7 @@ function validate(v) {
 const field =
   "mt-2 w-full border border-sand/25 bg-cream/5 px-3 py-3 outline-none transition-colors hover:border-sand/40 focus:border-clay focus:bg-cream/10";
 
-// Enquiry form for dark backgrounds: the Contact section on /studio and the end of the letter on /.
+// Enquiry form at the end of the letter (dark background).
 // `compact` tightens spacing for the letter's single-screen stage.
 export default function ContactForm({ compact = false }) {
   const [values, setValues] = useState(initial);
