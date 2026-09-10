@@ -44,6 +44,7 @@ export default function Letter() {
     const aboutEl = part("about");
     const reply = part("reply");
     const world = document.getElementById("world");
+    let trigger = null; // the scrubbed timeline's ScrollTrigger, for link jumps
 
     // Reading pose, measured from the live layout on every refresh.
     const measure = () => {
@@ -76,6 +77,8 @@ export default function Letter() {
         });
 
         // Characters fade in one after another across `span` screens of scroll.
+        trigger = tl.scrollTrigger;
+
         // Hidden up front with set(): a staggered fromTo only renders its first
         // character's start state, so the rest would show before their turn.
         const write = (name, at, span) => {
@@ -224,7 +227,23 @@ export default function Letter() {
     ro.observe(aboutEl);
     ro.observe(reply);
 
+    // In-page links (#about, #contact, #top) jump straight to their target instead of
+    // scrolling, and the scrub's catch-up tween is completed so the timeline lands on
+    // the beat at once rather than replaying every chapter on the way.
+    const onLinkClick = (e) => {
+      const link = e.target.closest?.('a[href^="#"]');
+      const target = link && document.getElementById(link.getAttribute("href").slice(1));
+      if (!target) return;
+      e.preventDefault();
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY, behavior: "instant" });
+      history.pushState(null, "", link.getAttribute("href"));
+      ScrollTrigger.update();
+      trigger?.getTween()?.progress(1);
+    };
+    document.addEventListener("click", onLinkClick);
+
     return () => {
+      document.removeEventListener("click", onLinkClick);
       ro.disconnect();
       cancelAnimationFrame(frame);
       mm.revert();
