@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { aboutParagraphs, aboutTitle, address, email, principles } from "@/lib/practice";
 import ContactForm from "./ContactForm";
 
-// Scroll length of the section in screens. Matches h-[660vh] below; timeline
+// Scroll length of the section in screens. Matches h-[910vh] below; timeline
 // positions use the same unit, so 1 = one screen of scrolling.
-const LENGTH = 6.6;
+const LENGTH = 9.1;
 
 const paragraphs = [
   "If you're reading this, you probably have a plot of land, an old house, or a picture in your head that won't leave you alone. Every project I've worked on started exactly there.",
@@ -35,6 +37,7 @@ export default function Letter() {
     const flap = part("flap");
     const paper = part("paper");
     const header = part("header");
+    const aboutEl = part("about");
     const reply = part("reply");
     const world = document.getElementById("world");
 
@@ -122,18 +125,44 @@ export default function Letter() {
           tl.to(envWrap, { autoAlpha: 0, duration: 0.2 }, exit + 0.6);
         }
 
-        // 3.8 to 4.65: the reply prompt writes itself in, centred on screen.
-        const close = exit + 0.55;
+        // How far a chapter runs past the bottom of the screen.
+        const overflowOf = (el) => Math.max(0, el.offsetHeight - stage.clientHeight);
+
+        // 3.85 to 6.35: about the practice. The studio print drops in and the text writes
+        // in; a layout taller than the screen scrolls through, then the chapter lifts away.
+        const about = exit + 0.6;
+        const print = part("print");
+        tl.fromTo(aboutEl, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.05 }, about);
+        tl.fromTo(
+          print,
+          { autoAlpha: 0, y: reduce ? 0 : 120, rotation: reduce ? 0 : 5 },
+          { autoAlpha: 1, y: 0, rotation: reduce ? 0 : -2, duration: 0.6, ease: "letter.out" },
+          about
+        );
+        write("about-eyebrow", about + 0.1, 0.25);
+        write("about-bg", about + 0.2, 0.45);
+        write("about-title", about + 0.4, 0.45);
+        tl.fromTo(part("about-body"), { autoAlpha: 0, yPercent: reduce ? 0 : 10 }, { autoAlpha: 1, yPercent: 0, duration: 0.3 }, about + 0.6);
+        const principleEls = section.querySelectorAll('[data-l="principle"]');
+        gsap.set(principleEls, { autoAlpha: 0 });
+        tl.to(principleEls, { autoAlpha: 1, duration: 0.25, stagger: 0.1 }, about + 0.75);
+        tl.to(aboutEl, { y: () => -overflowOf(aboutEl), duration: 0.8 }, about + 1.1);
+        const aboutOut = about + 2.1;
+        tl.to(print, { y: () => (reduce ? 0 : -0.25 * stage.clientHeight), rotation: reduce ? 0 : -8, duration: 0.4, ease: "power1.in" }, aboutOut);
+        tl.to(aboutEl, { y: () => -overflowOf(aboutEl) - (reduce ? 0 : 0.1 * stage.clientHeight), autoAlpha: 0, duration: 0.4, ease: "power1.in" }, aboutOut);
+
+        // 6.3 to 7.15: the reply prompt and contact details write in, centred on screen.
+        const close = aboutOut + 0.35;
         write("close-eyebrow", close, 0.25);
         write("close-bg", close + 0.1, 0.4);
         write("close-title", close + 0.3, 0.4);
-        tl.fromTo(part("close-cta"), { autoAlpha: 0, yPercent: reduce ? 0 : 30 }, { autoAlpha: 1, yPercent: 0, duration: 0.25 }, close + 0.6);
+        tl.fromTo(part("close-details"), { autoAlpha: 0, yPercent: reduce ? 0 : 30 }, { autoAlpha: 1, yPercent: 0, duration: 0.25 }, close + 0.6);
 
-        // 4.85 to 5.65: the prompt moves aside (left on desktop, up on phones) and the
+        // 7.35 to 8.15: the prompt moves aside (left on desktop, up on phones) and the
         // contact form comes forward. The prompt's pieces live in their final layout and
         // are offset back to the screen centre, easing to zero as move.p runs 0 to 1.
         const aside = close + 1.05;
-        const moved = ["close-eyebrow", "close-heading", "close-cta"].map(part);
+        const moved = ["close-eyebrow", "close-heading", "close-details"].map(part);
         const move = { p: 0 };
         let centre = [];
         const within = (el) => {
@@ -159,8 +188,8 @@ export default function Letter() {
           aside + 0.35
         );
 
-        // 5.7 to 6.3: when the form runs past the bottom of a short screen, bring it into view.
-        tl.to(reply, { y: () => -Math.max(0, reply.offsetHeight - stage.clientHeight), duration: 0.6 }, aside + 0.85);
+        // 8.2 to 8.8: when the form runs past the bottom of a short screen, bring it into view.
+        tl.to(reply, { y: () => -overflowOf(reply), duration: 0.6 }, aside + 0.85);
         tl.to({}, { duration: 0 }, LENGTH);
 
         // Once the section covers the screen, the film underneath stops painting.
@@ -188,6 +217,7 @@ export default function Letter() {
     });
     if (world) ro.observe(world);
     ro.observe(paper);
+    ro.observe(aboutEl);
     ro.observe(reply);
 
     return () => {
@@ -198,7 +228,7 @@ export default function Letter() {
   }, []);
 
   return (
-    <section ref={root} id="letter" aria-labelledby="letter-title" className="relative z-[70] h-[660vh] bg-bark text-cream">
+    <section ref={root} id="letter" aria-labelledby="letter-title" className="relative z-[70] h-[910vh] bg-bark text-cream">
       <div
         data-l="stage"
         className="sticky top-0 h-dvh overflow-hidden"
@@ -274,6 +304,53 @@ export default function Letter() {
           </div>
         </div>
 
+        {/* about: the studio print and the practice, between the letter and the reply */}
+        <div data-l="about" className="absolute inset-x-0 top-0 px-6">
+          <div className="mx-auto grid min-h-dvh max-w-6xl content-center items-center gap-8 py-[8dvh] lg:grid-cols-12 lg:gap-16 lg:py-[12dvh]">
+            <figure
+              data-l="print"
+              className="mx-auto w-full max-w-sm bg-cream p-3 pb-4 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.6)] lg:col-span-5 lg:w-[min(100%,calc(60dvh*0.8))] lg:max-w-none"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden lg:aspect-[4/5]">
+                <Image
+                  src="/world/studio-about.webp"
+                  alt="Papercraft model of a small studio: an architect bent over a card model on a drafting table by a window"
+                  fill
+                  sizes="(min-width: 64rem) 36vw, 90vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="mt-3 text-xs text-stone">The studio, from the Forma world.</figcaption>
+            </figure>
+            <div className="lg:col-span-7">
+              <p data-l="about-eyebrow" className="text-xs uppercase tracking-[0.3em] text-sand/70">
+                About
+              </p>
+              <h3 className="relative mt-5 text-4xl leading-tight md:text-5xl">
+                <span data-l="about-bg" aria-hidden="true" className="letter-outline block">
+                  {aboutTitle}
+                </span>
+                <span data-l="about-title" className="absolute inset-0 block">
+                  {aboutTitle}
+                </span>
+              </h3>
+              <div data-l="about-body" className="mt-6 space-y-4 leading-relaxed text-sand/80">
+                {aboutParagraphs.map((p) => (
+                  <p key={p.slice(0, 24)}>{p}</p>
+                ))}
+              </div>
+              <dl className="mt-10 grid gap-6 border-t border-sand/20 pt-8 sm:grid-cols-3">
+                {principles.map((p) => (
+                  <div key={p.title} data-l="principle">
+                    <dt className="font-serif text-lg text-cream">{p.title}</dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-sand/70">{p.body}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        </div>
+
         {/* reply: the prompt ends up left of the form (above it on phones) */}
         <div data-l="reply" className="absolute inset-x-0 top-0 px-6">
           <div className="mx-auto grid min-h-dvh max-w-6xl content-center items-center gap-10 py-[8dvh] lg:grid-cols-2 lg:py-[12dvh] lg:gap-16">
@@ -289,14 +366,16 @@ export default function Letter() {
                   Write back.
                 </span>
               </h3>
-              <div data-l="close-cta" className="mt-10 flex w-fit flex-wrap gap-3">
-                <a href="/studio#contact" className="rounded-full bg-cream px-6 py-3 text-sm font-semibold text-bark transition-transform hover:-translate-y-0.5">
-                  Start a project
+              <address data-l="close-details" className="mt-10 w-fit text-sm not-italic leading-relaxed text-sand/70">
+                <a
+                  href={`mailto:${email}`}
+                  className="text-lg text-cream underline decoration-sand/30 underline-offset-4 transition-colors hover:decoration-clay"
+                >
+                  {email}
                 </a>
-                <a href="/studio#about" className="rounded-full border border-sand/40 px-6 py-3 text-sm font-semibold text-cream transition-transform hover:-translate-y-0.5">
-                  About the practice
-                </a>
-              </div>
+                <br />
+                {address}
+              </address>
             </div>
             <div data-l="form">
               <ContactForm compact />
