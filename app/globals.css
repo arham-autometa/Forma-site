@@ -28,6 +28,10 @@ h1, h2, h3 {
 }
 
 /* scroll-world engine theme (see public/world/scrub-engine.js) */
+/* The engine sets overflow-x: hidden on html and body, which turns body into a
+   scroll container and breaks position: sticky (the letter section needs it). */
+html, body { overflow-x: clip; }
+
 .sw-root {
   --sw-bg: #faf6f0;
   --sw-ink: #3b322c;
@@ -66,4 +70,13 @@ h1, h2, h3 {
   .sw-copy__cta { flex-wrap: wrap; }
   /* The scene counter is decorative; on the narrowest phones it would sit above the fade. */
   .sw-copy__num { display: none; }
+}
+
+/* Once the letter section fully covers the film, stop painting the fixed film layers. */
+.sw-root.sw-covered > :not(.sw-track) { visibility: hidden; }
+
+/* Letter section (components/Letter.js): outlined title with a solid copy laid over it. */
+.letter-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-sand) 55%, transparent);
 }

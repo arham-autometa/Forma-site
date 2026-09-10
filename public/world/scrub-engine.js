@@ -231,7 +231,8 @@ function mountScrollWorld(container, config) {
       const local = clamp((y - s.start) / (s.end - s.start), 0, 1);
       s.target = s.linger ? lingerEase(local, s.linger) : local;
       let outside = 0;
-      if (y < s.start) outside = s.start - y; else if (y > s.end) outside = y - s.end;
+      // The last scene holds past its end so content placed after the film can slide over it.
+      if (y < s.start) outside = s.start - y; else if (y > s.end && i < NSEG - 1) outside = y - s.end;
       const op = smooth(1 - outside / fade);
       s.el.style.opacity = op; s.visible = op > 0.001;
       s.el.style.zIndex = (i === ci) ? '120' : String(100 + Math.round(op * 10));
@@ -251,7 +252,9 @@ function mountScrollWorld(container, config) {
       else cop = (before || after) ? 0 : smooth(1 - Math.abs(pr - 0.5) / 0.5);
       const c = copies[i];
       c.style.opacity = cop;
-      c.style.transform = reduce ? 'none' : `translateY(${(0.5 - pr) * 4}vh)`;
+      // Drift via `translate`, not `transform`, so the stylesheet's translateY(-50%)
+      // centring on desktop survives (otherwise tall copy hangs below the fold).
+      c.style.translate = reduce ? 'none' : `0 ${(0.5 - pr) * 4}vh`;
       c.style.pointerEvents = cop > 0.5 ? 'auto' : 'none';
     }
 
