@@ -18,3 +18,7 @@ npm run build && npm start
 - `src/data/services.ts` — the services list.
 
 Images are hotlinked from Unsplash; swap the photo IDs in `projects.ts` for the firm's own photography when available.
+
+## Design system
+
+The page follows a Hallmark "Photographic" macrostructure. Design tokens (colours in OKLCH, type scale, spacing, easings) live in `src/app/tokens.css` and are the only source of colour and font values. `.hallmark/log.json` records the design choices for future runs.

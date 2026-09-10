@@ -1,25 +1,22 @@
 @import "tailwindcss";
-
-:root {
-  --bone: #f3efe8;
-  --bone-2: #e9e3d9;
-  --concrete: #b8b2a7;
-  --stone: #6f6a62;
-  --charcoal: #1f1e1b;
-  --ink: #141311;
-  --clay: #b5623a;
-}
+@import "./tokens.css";
 
 @theme inline {
-  --color-bone: var(--bone);
-  --color-bone-2: var(--bone-2);
-  --color-concrete: var(--concrete);
-  --color-stone: var(--stone);
-  --color-charcoal: var(--charcoal);
-  --color-ink: var(--ink);
-  --color-clay: var(--clay);
-  --font-serif: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --color-paper: var(--color-paper);
+  --color-paper-2: var(--color-paper-2);
+  --color-paper-3: var(--color-paper-3);
+  --color-ink: var(--color-ink);
+  --color-ink-2: var(--color-ink-2);
+  --color-muted: var(--color-muted);
+  --color-accent: var(--color-accent);
+  --color-on-photo: var(--color-on-photo);
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-body);
+}
+
+html,
+body {
+  overflow-x: clip;
 }
 
 html {
@@ -33,25 +30,58 @@ html {
 }
 
 body {
-  background: var(--bone);
-  color: var(--ink);
-  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
-::selection {
-  background: var(--clay);
-  color: var(--bone);
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
-.eyebrow {
-  font-size: 0.7rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--stone);
+::selection {
+  background: var(--color-accent);
+  color: var(--color-paper);
 }
 
 :focus-visible {
-  outline: 2px solid var(--clay);
+  outline: 2px solid var(--color-focus);
   outline-offset: 3px;
+}
+
+/* Photographic caption: small annotation tucked to a corner of the image */
+.caption {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  max-width: 34ch;
+}
+
+/* Typographic link: the only button voice on the page */
+.link-type {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  white-space: nowrap;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.link-type:hover {
+  color: var(--color-accent);
+}
+.link-type:active {
+  transform: translateY(1px);
+}
+
+.text-fold {
+  padding-inline: var(--page-gutter);
 }

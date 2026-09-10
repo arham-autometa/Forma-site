@@ -1,40 +1,22 @@
 import { services } from "@/data/services";
-import Reveal from "./Reveal";
 
+/* Narrow text band: a plain list with hairlines. No numbers, no tags. */
 export default function Services() {
   return (
-    <section id="services" className="bg-charcoal text-bone">
-      <div className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-36">
-        <div className="grid gap-12 md:grid-cols-12">
-          <Reveal className="md:col-span-4">
-            <p className="eyebrow !text-bone/50">Services</p>
-            <h2 className="mt-5 font-serif text-4xl font-light leading-tight tracking-tight md:text-5xl">
-              From the first sketch to the last screw.
-            </h2>
-            <p className="mt-6 max-w-sm text-bone/60 leading-relaxed">
-              One team carries the idea through every stage, so what gets built is
-              what was drawn.
-            </p>
-          </Reveal>
-
-          <ol className="md:col-span-7 md:col-start-6">
-            {services.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.06}>
-                <li className="group grid gap-3 border-t border-bone/15 py-7 md:grid-cols-12 md:gap-6">
-                  <span className="font-serif text-sm text-bone/40 md:col-span-1">
-                    0{i + 1}
-                  </span>
-                  <h3 className="font-serif text-2xl font-light md:col-span-4">
-                    {s.title}
-                  </h3>
-                  <p className="text-bone/60 leading-relaxed md:col-span-7">
-                    {s.text}
-                  </p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
+    <section id="services" className="text-fold pb-[var(--space-3xl)]">
+      <div className="md:grid md:grid-cols-12 md:gap-8">
+        <h2 className="mb-8 text-[length:var(--text-xl)] md:col-span-3 md:mb-0">What we do</h2>
+        <dl className="md:col-span-8 md:col-start-5">
+          {services.map((s) => (
+            <div
+              key={s.title}
+              className="grid gap-2 border-t border-[var(--color-rule)] py-5 sm:grid-cols-[minmax(0,11rem)_minmax(0,1fr)] sm:gap-6"
+            >
+              <dt className="font-serif text-[length:var(--text-lg)]">{s.title}</dt>
+              <dd className="max-w-[52ch] text-ink-2">{s.text}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
