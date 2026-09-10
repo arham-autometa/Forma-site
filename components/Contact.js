@@ -16,7 +16,7 @@ function validate(v) {
 }
 
 const field =
-  "w-full border-b border-stone/40 bg-transparent py-3 outline-none transition-colors focus:border-clay";
+  "mt-2 w-full border border-sand/25 bg-cream/5 px-3 py-3 outline-none transition-colors hover:border-sand/40 focus:border-clay focus:bg-cream/10";
 
 export default function Contact() {
   const [values, setValues] = useState(initial);

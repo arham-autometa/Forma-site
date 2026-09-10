@@ -14,7 +14,7 @@ export default function Header() {
   return (
     <header className="w-full">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-        <a href="#top" className="font-serif text-2xl tracking-tight text-bark">
+        <a href="/" className="font-serif text-2xl tracking-tight text-bark">
           Forma
         </a>
 

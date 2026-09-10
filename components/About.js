@@ -14,17 +14,16 @@ export default function About() {
         <Reveal className="md:col-span-5">
           <figure>
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-sand">
-              {/* Stock photograph (Unsplash License). Replace with the principal's own portrait. */}
               <Image
-                src="/placeholders/portrait.jpg"
-                alt="An architect at a drawing desk studying a card model of a house on a contoured site"
+                src="/world/studio-about.webp"
+                alt="Papercraft model of a small studio: an architect bent over a card model on a drafting table by a window"
                 fill
                 sizes="(min-width: 48rem) 40vw, 100vw"
                 className="object-cover"
               />
             </div>
             <figcaption className="mt-3 text-xs text-stone">
-              Stock photograph by <a href="https://unsplash.com/photos/WUY0W2RSiBw" className="underline underline-offset-2">GN Group</a> on Unsplash, to be replaced with the principal&apos;s portrait.
+              The studio, from the Forma world.
             </figcaption>
           </figure>
         </Reveal>

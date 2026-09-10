@@ -9,7 +9,7 @@ export default function Hero() {
           Architecture · Interiors · Landscape
         </p>
         <h1 className="max-w-3xl text-5xl leading-[1.05] md:text-7xl">
-          Buildings that feel like they were always meant to be there.
+          Designed and seen through by one architect.
         </h1>
       </Reveal>
 
@@ -32,10 +32,9 @@ export default function Hero() {
       <Reveal delay={0.3} className="mt-16">
         <figure>
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-sand">
-            {/* Stock photograph (Unsplash License). Replace with the practice's own work. */}
             <Image
-              src="/placeholders/hero.jpg"
-              alt="Timber eaves of a house lit warm at dusk, bare trees against the evening sky"
+              src="/world/house.webp"
+              alt="Papercraft model of a finished two-storey house at dusk, with a stone terrace, young garden and a mature tree"
               fill
               priority
               sizes="(min-width: 72rem) 72rem, 100vw"
@@ -43,7 +42,7 @@ export default function Hero() {
             />
           </div>
           <figcaption className="mt-3 text-xs text-stone">
-            Photograph by <a href="https://unsplash.com/photos/FmemkJ1k0JE" className="underline underline-offset-2">Squids Z</a> on Unsplash.
+            The finished house, from the Forma world.
           </figcaption>
         </figure>
       </Reveal>

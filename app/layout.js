@@ -20,7 +20,7 @@ export const metadata = {
     title: "Forma — Architecture Studio",
     description:
       "Calm, material-led architecture for homes, workplaces and landscapes.",
-    images: ["/placeholders/hero.jpg"],
+    images: ["/world/house.webp"],
   },
 };
 

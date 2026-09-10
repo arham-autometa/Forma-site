@@ -3,7 +3,7 @@
 @theme {
   --color-cream: #faf6f0;
   --color-sand: #efe7da;
-  --color-stone: #8c8479;
+  --color-stone: #6b645b;
   --color-clay: #c4643b;
   --color-bark: #3b322c;
   --color-moss: #6f7a5e;
@@ -25,4 +25,45 @@ h1, h2, h3 {
   font-family: var(--font-serif);
   font-weight: 400;
   letter-spacing: -0.01em;
+}
+
+/* scroll-world engine theme (see public/world/scrub-engine.js) */
+.sw-root {
+  --sw-bg: #faf6f0;
+  --sw-ink: #3b322c;
+  --sw-ink-soft: #6b645b;
+  --sw-accent: #c4643b;
+  --sw-font-display: var(--font-fraunces), Georgia, serif;
+  --sw-font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Wordmark matches /studio: no placeholder mark, serif name. */
+.sw-brand__mark { display: none; }
+.sw-brand__name { font-weight: 400; font-size: 1.5rem; letter-spacing: -0.01em; }
+/* Soft fade behind the top bar keeps the wordmark legible over dark close-ups. */
+.sw-topbar { background: linear-gradient(180deg, color-mix(in srgb, var(--sw-bg) 82%, transparent) 0%, color-mix(in srgb, var(--sw-bg) 40%, transparent) 65%, transparent 100%); }
+
+@media (max-width: 860px) {
+  /* Taller, denser fade so small labels stay readable over busy scenes. */
+  .sw-copylayer::before {
+    height: 72%;
+    background: linear-gradient(0deg,
+      var(--sw-bg) 0%,
+      var(--sw-bg) 30%,
+      color-mix(in srgb, var(--sw-bg) 86%, transparent) 44%,
+      color-mix(in srgb, var(--sw-bg) 45%, transparent) 60%,
+      transparent 100%);
+  }
+  /* Phones don't need a mouse-wheel hint; freeing the space lets copy sit lower, over the solid fade. */
+  .sw-hint { display: none; }
+  .sw-copy { bottom: calc(clamp(28px, 5dvh, 48px) + env(safe-area-inset-bottom)); }
+  /* Keep the finale's two buttons on one row so its copy block stays inside the solid fade. */
+  .sw-copy__cta { flex-wrap: nowrap; gap: 10px; }
+  .sw-btn { padding: 14px 16px; font-size: 0.9rem; white-space: nowrap; }
+}
+
+@media (max-width: 360px) {
+  .sw-copy__cta { flex-wrap: wrap; }
+  /* The scene counter is decorative; on the narrowest phones it would sit above the fade. */
+  .sw-copy__num { display: none; }
 }
