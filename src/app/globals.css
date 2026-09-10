@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bone: #f3efe8;
+  --bone-2: #e9e3d9;
+  --concrete: #b8b2a7;
+  --stone: #6f6a62;
+  --charcoal: #1f1e1b;
+  --ink: #141311;
+  --clay: #b5623a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bone: var(--bone);
+  --color-bone-2: var(--bone-2);
+  --color-concrete: var(--concrete);
+  --color-stone: var(--stone);
+  --color-charcoal: var(--charcoal);
+  --color-ink: var(--ink);
+  --color-clay: var(--clay);
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--clay);
+  color: var(--bone);
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+:focus-visible {
+  outline: 2px solid var(--clay);
+  outline-offset: 3px;
 }
