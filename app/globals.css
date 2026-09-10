@@ -11,10 +11,6 @@
   --font-serif: var(--font-fraunces), Georgia, serif;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   background: var(--color-cream);
   color: var(--color-bark);
