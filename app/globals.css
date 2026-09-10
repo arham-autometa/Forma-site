@@ -41,7 +41,7 @@ html, body { overflow-x: clip; }
   --sw-font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Wordmark matches /studio: no placeholder mark, serif name. */
+/* Wordmark: no placeholder mark, serif name to match the headings. */
 .sw-brand__mark { display: none; }
 .sw-brand__name { font-weight: 400; font-size: 1.5rem; letter-spacing: -0.01em; }
 /* Soft fade behind the top bar keeps the wordmark legible over dark close-ups. */
