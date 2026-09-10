@@ -5,10 +5,11 @@ import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import ContactForm from "./ContactForm";
 
-// Scroll length of the section in screens. Matches h-[500vh] below; timeline
+// Scroll length of the section in screens. Matches h-[660vh] below; timeline
 // positions use the same unit, so 1 = one screen of scrolling.
-const LENGTH = 5;
+const LENGTH = 6.6;
 
 const paragraphs = [
   "If you're reading this, you probably have a plot of land, an old house, or a picture in your head that won't leave you alone. Every project I've worked on started exactly there.",
@@ -34,6 +35,7 @@ export default function Letter() {
     const flap = part("flap");
     const paper = part("paper");
     const header = part("header");
+    const reply = part("reply");
     const world = document.getElementById("world");
 
     // Reading pose, measured from the live layout on every refresh.
@@ -120,12 +122,45 @@ export default function Letter() {
           tl.to(envWrap, { autoAlpha: 0, duration: 0.2 }, exit + 0.6);
         }
 
-        // 3.8 to 5: the reply prompt writes itself in and holds.
+        // 3.8 to 4.65: the reply prompt writes itself in, centred on screen.
         const close = exit + 0.55;
         write("close-eyebrow", close, 0.25);
         write("close-bg", close + 0.1, 0.4);
         write("close-title", close + 0.3, 0.4);
-        tl.fromTo(part("close-cta"), { autoAlpha: 0, y: reduce ? 0 : 16 }, { autoAlpha: 1, y: 0, duration: 0.25 }, close + 0.6);
+        tl.fromTo(part("close-cta"), { autoAlpha: 0, yPercent: reduce ? 0 : 30 }, { autoAlpha: 1, yPercent: 0, duration: 0.25 }, close + 0.6);
+
+        // 4.85 to 5.65: the prompt moves aside (left on desktop, up on phones) and the
+        // contact form comes forward. The prompt's pieces live in their final layout and
+        // are offset back to the screen centre, easing to zero as move.p runs 0 to 1.
+        const aside = close + 1.05;
+        const moved = ["close-eyebrow", "close-heading", "close-cta"].map(part);
+        const move = { p: 0 };
+        let centre = [];
+        const within = (el) => {
+          let x = 0;
+          let y = 0;
+          for (let n = el; n && n !== stage; n = n.offsetParent) { x += n.offsetLeft; y += n.offsetTop; }
+          return { x, y };
+        };
+        const place = () => moved.forEach((el, i) => gsap.set(el, { x: centre[i].x * (1 - move.p), y: centre[i].y * (1 - move.p) }));
+        const onRefresh = () => {
+          const closing = part("closing");
+          const dy = stage.clientHeight / 2 - (within(closing).y + closing.offsetHeight / 2);
+          centre = moved.map((el) => ({ x: stage.clientWidth / 2 - (within(el).x + el.offsetWidth / 2), y: dy }));
+          place();
+        };
+        onRefresh();
+        ScrollTrigger.addEventListener("refresh", onRefresh);
+        tl.fromTo(move, { p: 0 }, { p: 1, duration: reduce ? 0.01 : 0.7, ease: "power2.inOut", onUpdate: place }, aside);
+        tl.fromTo(
+          part("form"),
+          { autoAlpha: 0, y: reduce ? 0 : 40, scale: reduce ? 1 : 0.95 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "power2.out" },
+          aside + 0.35
+        );
+
+        // 5.7 to 6.3: when the form runs past the bottom of a short screen, bring it into view.
+        tl.to(reply, { y: () => -Math.max(0, reply.offsetHeight - stage.clientHeight), duration: 0.6 }, aside + 0.85);
         tl.to({}, { duration: 0 }, LENGTH);
 
         // Once the section covers the screen, the film underneath stops painting.
@@ -136,12 +171,16 @@ export default function Letter() {
           onEnter: () => world?.classList.add("sw-covered"),
           onLeaveBack: () => world?.classList.remove("sw-covered"),
         });
-        return () => world?.classList.remove("sw-covered");
+        return () => {
+          ScrollTrigger.removeEventListener("refresh", onRefresh);
+          world?.classList.remove("sw-covered");
+        };
       }
     );
 
-    // The film's track gets its height after the engine mounts, and the paper
-    // grows when web fonts land: both move this section's scroll positions.
+    // The film's track gets its height after the engine mounts, the paper grows
+    // when web fonts land, and the form grows with validation messages: all of
+    // them move this section's scroll positions.
     let frame = 0;
     const ro = new ResizeObserver(() => {
       cancelAnimationFrame(frame);
@@ -149,6 +188,7 @@ export default function Letter() {
     });
     if (world) ro.observe(world);
     ro.observe(paper);
+    ro.observe(reply);
 
     return () => {
       ro.disconnect();
@@ -158,7 +198,7 @@ export default function Letter() {
   }, []);
 
   return (
-    <section ref={root} id="letter" aria-labelledby="letter-title" className="relative z-[70] h-[500vh] bg-bark text-cream">
+    <section ref={root} id="letter" aria-labelledby="letter-title" className="relative z-[70] h-[660vh] bg-bark text-cream">
       <div
         data-l="stage"
         className="sticky top-0 h-dvh overflow-hidden"
@@ -234,25 +274,33 @@ export default function Letter() {
           </div>
         </div>
 
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-6 text-center">
-          <p data-l="close-eyebrow" className="text-xs uppercase tracking-[0.3em] text-sand/70">
-            Your turn
-          </p>
-          <h3 className="relative mx-auto mt-5 max-w-4xl text-6xl leading-none md:text-8xl lg:text-9xl">
-            <span data-l="close-bg" aria-hidden="true" className="letter-outline block">
-              Write back.
-            </span>
-            <span data-l="close-title" className="absolute inset-0 block">
-              Write back.
-            </span>
-          </h3>
-          <div data-l="close-cta" className="mt-10 flex flex-wrap justify-center gap-3">
-            <a href="/studio#contact" className="rounded-full bg-cream px-6 py-3 text-sm font-semibold text-bark transition-transform hover:-translate-y-0.5">
-              Start a project
-            </a>
-            <a href="/studio#about" className="rounded-full border border-sand/40 px-6 py-3 text-sm font-semibold text-cream transition-transform hover:-translate-y-0.5">
-              About the practice
-            </a>
+        {/* reply: the prompt ends up left of the form (above it on phones) */}
+        <div data-l="reply" className="absolute inset-x-0 top-0 px-6">
+          <div className="mx-auto grid min-h-dvh max-w-6xl content-center items-center gap-10 py-[8dvh] lg:grid-cols-2 lg:py-[12dvh] lg:gap-16">
+            <div data-l="closing" className="relative">
+              <p data-l="close-eyebrow" className="w-fit text-xs uppercase tracking-[0.3em] text-sand/70">
+                Your turn
+              </p>
+              <h3 data-l="close-heading" className="relative mt-5 w-fit text-6xl leading-none md:text-8xl">
+                <span data-l="close-bg" aria-hidden="true" className="letter-outline block">
+                  Write back.
+                </span>
+                <span data-l="close-title" className="absolute inset-0 block">
+                  Write back.
+                </span>
+              </h3>
+              <div data-l="close-cta" className="mt-10 flex w-fit flex-wrap gap-3">
+                <a href="/studio#contact" className="rounded-full bg-cream px-6 py-3 text-sm font-semibold text-bark transition-transform hover:-translate-y-0.5">
+                  Start a project
+                </a>
+                <a href="/studio#about" className="rounded-full border border-sand/40 px-6 py-3 text-sm font-semibold text-cream transition-transform hover:-translate-y-0.5">
+                  About the practice
+                </a>
+              </div>
+            </div>
+            <div data-l="form">
+              <ContactForm compact />
+            </div>
           </div>
         </div>
       </div>
