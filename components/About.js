@@ -1,11 +1,6 @@
 import Image from "next/image";
+import { aboutParagraphs, aboutTitle, principles } from "@/lib/practice";
 import Reveal from "./Reveal";
-
-const principles = [
-  { title: "Site first", body: "Orientation, views and ground conditions shape the plan before style does." },
-  { title: "Fewer, better materials", body: "A restrained palette that ages gracefully and needs little upkeep." },
-  { title: "One point of contact", body: "You work directly with me from the first meeting to handover." },
-];
 
 export default function About() {
   return (
@@ -31,20 +26,11 @@ export default function About() {
         <div className="md:col-span-7">
           <Reveal>
             <p className="mb-6 text-xs uppercase tracking-[0.3em] text-stone">About</p>
-            <h2 className="text-3xl leading-tight md:text-5xl">
-              Forma is run by one architect, on purpose.
-            </h2>
+            <h2 className="text-3xl leading-tight md:text-5xl">{aboutTitle}</h2>
             <div className="mt-8 space-y-4 leading-relaxed text-stone">
-              <p>
-                I set up Forma after a decade in larger studios, wanting to
-                spend more time on fewer projects. Working alone means the
-                person who draws the first sketch is the same one who checks
-                the last detail on site.
-              </p>
-              <p>
-                I take on a handful of projects a year: houses, small
-                workplaces, interiors and the landscapes around them.
-              </p>
+              {aboutParagraphs.map((p) => (
+                <p key={p.slice(0, 24)}>{p}</p>
+              ))}
             </div>
           </Reveal>
 

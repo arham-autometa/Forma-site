@@ -1,3 +1,4 @@
+import { address, email } from "@/lib/practice";
 import ContactForm from "./ContactForm";
 import Reveal from "./Reveal";
 
@@ -15,9 +16,9 @@ export default function Contact() {
             plenty to start. I reply to every enquiry within two working days.
           </p>
           <p className="mt-8 text-sm text-sand/70">
-            hello@forma.studio
+            {email}
             <br />
-            Placeholder Street 12, Somewhere
+            {address}
           </p>
         </Reveal>
 
