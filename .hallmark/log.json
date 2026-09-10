@@ -1,3 +1,24 @@
 [
-  { "date": "2026-09-10", "macrostructure": "Photographic", "theme": "custom", "theme_axes": "light / high-contrast-serif / warm", "vibe": "raw concrete, warm timber, quiet light", "enrichment": "none", "nav": "N9", "footer": "Ft6", "brief": "Forma · architecture and interior design firm landing page (redesign)" }
+  {
+    "date": "2026-09-10",
+    "macrostructure": "Portfolio Grid",
+    "theme": "custom",
+    "theme_axes": "light / grotesk-sans / warm",
+    "vibe": "board-formed concrete, oiled oak, corten, north light",
+    "enrichment": "Tier B hand-built SVG schematic plans",
+    "nav": "N6",
+    "footer": "Ft4",
+    "brief": "Forma \u00b7 architecture and interior design firm landing page (second redesign)"
+  },
+  {
+    "date": "2026-09-10",
+    "macrostructure": "Photographic",
+    "theme": "custom",
+    "theme_axes": "light / high-contrast-serif / warm",
+    "vibe": "raw concrete, warm timber, quiet light",
+    "enrichment": "none",
+    "nav": "N9",
+    "footer": "Ft6",
+    "brief": "Forma \u00b7 architecture and interior design firm landing page (redesign)"
+  }
 ]

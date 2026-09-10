@@ -1,50 +1,46 @@
-import Image from "next/image";
-import { projects } from "@/data/projects";
 import { site } from "@/data/site";
 
-/* Final photograph, then Ft6 letter close. Contact and footer are one gesture. */
+/* The one plate: a dark band for the inquiry. */
 export default function Close() {
-  const p = projects[projects.length - 1];
   return (
-    <>
-      <section className="relative aspect-[4/5] w-full sm:aspect-[16/9]">
-        <Image
-          src={p.gallery[1]}
-          alt={`${p.title}, interior`}
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-        <p className="caption absolute bottom-6 left-[var(--page-gutter)] text-on-photo">
-          {p.title}, {p.location}. {p.year}.
+    <section id="contact" aria-labelledby="contact-title" className="bg-plate text-on-plate">
+      <div className="shell grid gap-[var(--space-xl)] py-[var(--space-3xl)] md:grid-cols-12 md:py-[var(--space-4xl)]">
+        <h2 id="contact-title" className="text-[length:var(--text-display)] md:col-span-8">
+          Tell us about the site.
+        </h2>
+        <p className="max-w-[44ch] text-[length:var(--text-lg)] md:col-span-6" style={{ color: "var(--color-on-plate-muted)" }}>
+          Where it is, what it is for, and roughly when you hope to start. A few photographs or a
+          survey help, but a conversation is enough to begin.
         </p>
-      </section>
-
-      <footer id="contact" className="text-fold py-[var(--space-3xl)]">
-        <div className="max-w-[60ch]">
-          <p className="font-serif text-[length:var(--text-3xl)] leading-[1.15]">
-            If you have a site, a building, or only a feeling about a room,
-            write to us.
-          </p>
-          <p className="mt-8 font-serif text-[length:var(--text-lg)] leading-snug">
-            Yours,
-            <br />
-            <span className="font-medium">Forma</span>
-          </p>
-          <p className="mt-6 text-sm text-muted">
-            <a href={site.mailto} className="link-type text-ink">
-              {site.email}
-            </a>
-            <span className="mx-3">·</span>
+        <div className="flex flex-col gap-[var(--space-sm)] md:col-span-5 md:col-start-8">
+          <a href={site.mailto} className="link link-on-plate display text-[length:var(--text-2xl)]">
+            {site.email}
+          </a>
+          <p className="label" style={{ color: "var(--color-on-plate-muted)" }}>
             {site.phone}
-            <span className="mx-3">·</span>
+          </p>
+          <address className="label not-italic" style={{ color: "var(--color-on-plate-muted)" }}>
             {site.address.join(", ")}
-          </p>
-          <p className="mt-10 text-xs text-muted">
-            © {new Date().getFullYear()} Forma Architecture &amp; Interiors
-          </p>
+          </address>
         </div>
-      </footer>
-    </>
+      </div>
+    </section>
+  );
+}
+
+/* Ft4 dense colophon. */
+export function Colophon() {
+  return (
+    <footer className="shell py-[var(--space-xl)]">
+      <p className="label max-w-[92ch] leading-relaxed text-muted">
+        <span className="text-ink">Forma Architecture &amp; Interiors.</span> {site.address.join(", ")}.{" "}
+        <a href={site.mailto} className="link text-ink">
+          {site.email}
+        </a>
+        . Architecture, interior design, landscape integration, renovation and project oversight.
+        Set in Archivo and Newsreader. Project photographs are placeholders from Pexels and
+        Unsplash, credited on each project. © {new Date().getFullYear()}.
+      </p>
+    </footer>
   );
 }

@@ -21,4 +21,11 @@ Images are hotlinked from Unsplash; swap the photo IDs in `projects.ts` for the 
 
 ## Design system
 
-The page follows a Hallmark "Photographic" macrostructure. Design tokens (colours in OKLCH, type scale, spacing, easings) live in `src/app/tokens.css` and are the only source of colour and font values. `.hallmark/log.json` records the design choices for future runs.
+The page follows a Hallmark "Portfolio Grid" structure: a masthead, a short statement, a filterable work index with grid and list views, one project told in full, the practice, and a dark inquiry band.
+Design tokens (OKLCH colours, Archivo and Newsreader type scale, spacing, easings) live in `src/app/tokens.css` and are the only source of colour and font values.
+Each project's schematic plan is drawn from the `plan.rooms` data in `src/data/projects.ts`.
+`.hallmark/log.json` records design choices so future runs rotate away from them.
+
+## Photographs
+
+All project photographs are placeholders hotlinked from Pexels and Unsplash, credited inside each project panel. Replace the `photos` entries in `src/data/projects.ts` with the firm's own photography before launch.

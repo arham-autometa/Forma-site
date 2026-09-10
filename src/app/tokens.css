@@ -1,49 +1,81 @@
-/* Hallmark · genre: editorial · macrostructure: Photographic · theme: custom (vibe: "raw concrete, warm timber, quiet light")
- * paper oklch(95% 0.008 80) · accent oklch(56% 0.13 45) warm · Fraunces + Manrope
- * axes: light / high-contrast-serif / warm · enrichment: none (real photography) · nav: N9 · footer: Ft6
- * tone: austere · anchor hue: clay 45°
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V5 · contrast: pass (40–41) · slop: pass (42–45) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · mobile: pass (34, 49, 50–57) */
+/* Hallmark · genre: editorial · macrostructure: Portfolio Grid · theme: custom
+ * vibe: "board-formed concrete, oiled oak, corten, north light"
+ * paper oklch(94.5% 0.006 85) · accent oklch(52% 0.13 42) corten · Archivo (display, condensed) + Newsreader (body)
+ * axes: light / grotesk-sans / warm · differs from last build (Photographic, Fraunces serif) on display style
+ * enrichment: Tier B hand-built SVG schematic plans · nav: N6 masthead (left-set) · footer: Ft4 dense colophon
+ * tone: austere · audience: homeowners, developers, businesses · use: project inquiry by email
  */
 :root {
-  --color-paper: oklch(95% 0.008 80);
-  --color-paper-2: oklch(91% 0.012 80);
-  --color-paper-3: oklch(86% 0.014 80);
-  --color-ink: oklch(18% 0.008 80);
-  --color-ink-2: oklch(28% 0.008 80);
-  --color-muted: oklch(50% 0.012 70);
-  --color-rule: oklch(18% 0.008 80 / 0.14);
-  --color-accent: oklch(56% 0.13 45);
-  --color-focus: oklch(56% 0.13 45);
-  --color-on-photo: oklch(96% 0.006 80);
+  /* paper and ink */
+  --color-paper: oklch(94.5% 0.006 85);
+  --color-paper-2: oklch(91% 0.008 85);
+  --color-paper-3: oklch(86.5% 0.01 85);
+  --color-ink: oklch(19% 0.01 60);
+  --color-ink-2: oklch(33% 0.01 60);
+  --color-muted: oklch(47% 0.012 65);
+  --color-rule: oklch(19% 0.01 60 / 0.16);
+  --color-rule-strong: oklch(19% 0.01 60);
 
-  --font-display: var(--font-fraunces), Georgia, serif;
-  --font-body: var(--font-manrope), system-ui, sans-serif;
+  /* one accent: corten */
+  --color-accent: oklch(52% 0.13 42);
+  --color-accent-ink: oklch(97% 0.005 85);
+  --color-accent-on-ink: oklch(74% 0.11 48);
+  --color-focus: oklch(52% 0.13 42);
 
-  --text-xs: 0.72rem;
+  /* the plate (one dark band) */
+  --color-plate: oklch(19% 0.01 60);
+  --color-on-plate: oklch(93% 0.006 85);
+  --color-on-plate-muted: oklch(72% 0.01 80);
+  --color-rule-on-plate: oklch(93% 0.006 85 / 0.18);
+  --color-scrim: oklch(19% 0.01 60 / 0.55);
+
+  /* plan drawings */
+  --color-plan-line: oklch(19% 0.01 60);
+  --color-plan-fill: oklch(91% 0.008 85);
+  --color-plan-open: oklch(52% 0.13 42 / 0.12);
+
+  /* type */
+  --font-display: var(--font-archivo), "Arial Narrow", system-ui, sans-serif;
+  --font-body: var(--font-newsreader), Georgia, serif;
+  --display-stretch: 82%;
+  --display-weight: 560;
+  --tracking-display: -0.025em;
+  --tracking-label: 0.02em;
+
+  --text-xs: 0.75rem;
   --text-sm: 0.875rem;
-  --text-md: 1rem;
-  --text-lg: 1.2rem;
-  --text-xl: 1.5rem;
-  --text-2xl: 2rem;
-  --text-3xl: clamp(2rem, 3vw + 0.5rem, 3rem);
-  --text-display-s: clamp(2.25rem, 4vw + 0.5rem, 4rem);
-  --text-display: clamp(2.75rem, 5vw + 1rem, 5.25rem);
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+  --text-3xl: clamp(2.25rem, 3.2vw + 1rem, 3.75rem);
+  --text-display: clamp(2.75rem, 5vw + 1rem, 5.5rem);
+  --text-wordmark: clamp(3.5rem, 8vw + 1rem, 7rem);
 
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
+  /* 4pt spacing */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2.5rem;
   --space-2xl: 4rem;
-  --space-3xl: 7rem;
-  --page-gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+  --page-gutter: clamp(1rem, 3.2vw, 3rem);
+  --shell: 96rem;
 
+  /* motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-fast: 150ms;
-  --dur-base: 240ms;
-  --dur-slow: 450ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
 
   --rule-hair: 1px solid var(--color-rule);
+  --rule-ink: 1px solid var(--color-rule-strong);
   --radius-none: 0;
+  --z-panel: 50;
 }

@@ -1,0 +1,9 @@
+{
+  "date": "2026-09-10",
+  "framework": "Next.js 16.3.4, app router (package.json)",
+  "fonts": "Fraunces + Manrope via next/font/google (src/app/layout.tsx)",
+  "palette": "OKLCH tokens in src/app/tokens.css, mapped through Tailwind v4 @theme inline (src/app/globals.css)",
+  "motion": "framer-motion installed; used only for project panel fade",
+  "spacing": "--space-* custom properties (src/app/tokens.css)",
+  "preserve": ["framework", "Tailwind v4 entry directives", "project data files", "mailto inquiry"]
+}

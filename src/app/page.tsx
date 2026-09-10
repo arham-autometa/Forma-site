@@ -1,10 +1,9 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import Philosophy from "@/components/Philosophy";
-import Services from "@/components/Services";
 import Projects from "@/components/Projects";
-import Process from "@/components/Process";
-import Close from "@/components/Close";
+import Featured from "@/components/Featured";
+import Practice from "@/components/Practice";
+import Close, { Colophon } from "@/components/Close";
 
 export default function Home() {
   return (
@@ -12,12 +11,12 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <Philosophy />
-        <Services />
         <Projects />
-        <Process />
+        <Featured />
+        <Practice />
+        <Close />
       </main>
-      <Close />
+      <Colophon />
     </>
   );
 }

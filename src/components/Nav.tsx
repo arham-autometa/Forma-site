@@ -1,31 +1,27 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { site } from "@/data/site";
 
-/* N9 · edge-aligned minimal: wordmark hard-left, one CTA hard-right, nothing between. */
+/* N6 masthead, set left: a meta row with the few real destinations, a large wordmark, a double rule. */
 export default function Nav() {
-  const [onPaper, setOnPaper] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setOnPaper(window.scrollY > window.innerHeight * 0.75);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-40 flex items-center justify-between px-[var(--page-gutter)] py-5 transition-colors duration-[var(--dur-base)] ${
-        onPaper ? "text-ink mix-blend-normal" : "text-on-photo"
-      }`}
-    >
-      <a href="#top" className="font-serif text-xl tracking-tight">
-        Forma
-      </a>
-      <a href={site.mailto} className="link-type text-sm">
-        Start a project <span aria-hidden>→</span>
-      </a>
+    <header className="shell pt-[var(--space-sm)]">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-[var(--color-rule)] pb-[var(--space-sm)]">
+        <p className="label text-muted">Architecture, interiors, landscape, renovation</p>
+        <nav aria-label="Primary">
+          <ul className="flex items-center gap-[var(--space-lg)]">
+            {site.nav.map((n) => (
+              <li key={n.href}>
+                <a href={n.href} className="link label">
+                  {n.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+      <h1 className="wordmark display pt-[var(--space-md)]">
+        Forma<span className="sr-only">, architecture and interior design</span>
+      </h1>
+      <div aria-hidden className="mt-[var(--space-sm)] h-[5px] border-y border-[var(--color-rule-strong)]" />
     </header>
   );
 }

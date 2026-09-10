@@ -1,24 +1,24 @@
 import type { Metadata } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Archivo, Newsreader } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  axes: ["opsz"],
-  weight: "variable",
+  variable: "--font-archivo",
+  axes: ["wdth"],
 });
 
-const manrope = Manrope({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  variable: "--font-manrope",
-  weight: ["400", "500", "600"],
+  variable: "--font-newsreader",
+  axes: ["opsz"],
+
 });
 
 export const metadata: Metadata = {
   title: "Forma — Architecture & Interior Design",
   description:
-    "Forma is an architecture and interior design firm creating thoughtfully designed spaces, from private residences and apartment buildings to boutique hotels, offices and cultural spaces.",
+    "Forma is an architecture and interior design firm creating houses, apartment buildings, boutique hotels, offices and cultural spaces, from first sketch through construction.",
   openGraph: {
     title: "Forma — Architecture & Interior Design",
     description:
@@ -31,7 +31,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${archivo.variable} ${newsreader.variable}`}>
       <body>{children}</body>
     </html>
   );

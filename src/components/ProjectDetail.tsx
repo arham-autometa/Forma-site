@@ -4,14 +4,10 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { Project } from "@/data/projects";
+import { mailtoFor } from "@/data/site";
+import Plan from "./Plan";
 
-export default function ProjectDetail({
-  project,
-  onClose,
-}: {
-  project: Project | null;
-  onClose: () => void;
-}) {
+export default function ProjectDetail({ project, onClose }: { project: Project | null; onClose: () => void }) {
   const panel = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
 
@@ -24,9 +20,7 @@ export default function ProjectDetail({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
       if (e.key === "Tab" && panel.current) {
-        const f = panel.current.querySelectorAll<HTMLElement>(
-          'a[href], button, [tabindex]:not([tabindex="-1"])',
-        );
+        const f = panel.current.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])');
         if (!f.length) return;
         const first = f[0];
         const last = f[f.length - 1];
@@ -47,69 +41,78 @@ export default function ProjectDetail({
     };
   }, [project, onClose]);
 
+  const facts = project
+    ? [
+        ["Type", project.type],
+        ["Location", project.location],
+        ["Year", String(project.year)],
+        ["Area", project.area],
+      ]
+    : [];
+  const sources = project ? Array.from(new Set(project.photos.map((p) => p.source))).join(" and ") : "";
+
   return (
     <AnimatePresence>
       {project && (
         <motion.div
-          className="fixed inset-0 z-50 flex justify-end bg-ink/60 backdrop-blur-sm"
+          className="fixed inset-0 z-[var(--z-panel)] flex justify-end"
+          style={{ background: "var(--color-scrim)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: reduce ? 0.1 : 0.22, ease: [0.22, 1, 0.36, 1] }}
           onClick={onClose}
         >
-          <motion.div
+          <div
             ref={panel}
-            tabIndex={-1}
             role="dialog"
             aria-modal="true"
             aria-labelledby="project-title"
+            tabIndex={-1}
             onClick={(e) => e.stopPropagation()}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduce ? 0.12 : 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="h-full w-full max-w-3xl overflow-y-auto bg-paper text-ink outline-none"
+            className="h-full w-full max-w-[64rem] overflow-y-auto bg-paper outline-none"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--color-rule)] bg-paper/90 px-5 py-4 backdrop-blur md:px-8">
-              <span className="text-sm text-muted">{project.type}</span>
-              <button
-                onClick={onClose}
-                className="rounded-full border border-[var(--color-rule)] px-4 py-1.5 text-sm transition hover:bg-ink hover:text-paper"
-              >
+            <div className="sticky top-0 z-10 flex items-center justify-between gap-[var(--space-md)] border-b border-[var(--color-rule)] bg-paper px-[var(--page-gutter)] py-[var(--space-sm)]">
+              <p className="label text-muted">{project.type}</p>
+              <button type="button" onClick={onClose} className="link cursor-pointer">
                 Close
               </button>
             </div>
 
-            <div className="px-5 pb-16 pt-8 md:px-8">
-              <h2 id="project-title" className="font-serif text-4xl font-light tracking-tight md:text-5xl">
+            <article className="px-[var(--page-gutter)] pb-[var(--space-3xl)] pt-[var(--space-xl)]">
+              <h2 id="project-title" className="text-[length:var(--text-display)]">
                 {project.title}
               </h2>
-              <p className="mt-2 text-muted">
-                {project.location} · {project.year} · {project.area}
-              </p>
+              <dl className="mt-[var(--space-lg)] grid grid-cols-2 border-t border-[var(--color-rule-strong)] sm:grid-cols-4">
+                {facts.map(([k, v]) => (
+                  <div key={k} className="border-b border-[var(--color-rule)] py-[var(--space-sm)] pr-[var(--space-md)]">
+                    <dt className="label text-muted">{k}</dt>
+                    <dd className="label num mt-[var(--space-2xs)] text-ink">{v}</dd>
+                  </div>
+                ))}
+              </dl>
 
-              <div className="relative mt-8 aspect-[3/2] overflow-hidden bg-paper-2">
-                <Image
-                  src={project.gallery[0]}
-                  alt={`${project.title} exterior`}
-                  fill
-                  sizes="(min-width: 768px) 768px, 100vw"
-                  className="object-cover"
-                />
+              <div className="relative mt-[var(--space-xl)] aspect-[3/2] overflow-hidden bg-paper-2">
+                <Image src={project.photos[0].src} alt={project.photos[0].alt} fill sizes="(min-width: 1024px) 64rem, 100vw" className="object-cover" />
               </div>
 
-              <div className="mt-10 grid gap-10 md:grid-cols-12">
+              <div className="mt-[var(--space-xl)] grid gap-[var(--space-xl)] md:grid-cols-12">
                 <div className="md:col-span-7">
-                  <p className="text-sm text-muted">The story</p>
-                  <p className="mt-3 text-lg leading-relaxed">{project.story}</p>
-                  <p className="mt-8 text-sm text-muted">Decisions behind the space</p>
-                  <p className="mt-3 leading-relaxed text-muted">{project.decisions}</p>
+                  <p className="text-[length:var(--text-xl)] leading-[1.4]">{project.story}</p>
+                  <h3 className="mt-[var(--space-xl)] text-[length:var(--text-lg)]">Decisions behind the space</h3>
+                  <ul className="mt-[var(--space-xs)]">
+                    {project.decisions.map((d) => (
+                      <li key={d} className="border-t border-[var(--color-rule)] py-[var(--space-sm)] text-ink-2">
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
                 <div className="md:col-span-4 md:col-start-9">
-                  <p className="text-sm text-muted">Materials</p>
-                  <ul className="mt-3 space-y-2">
+                  <h3 className="text-[length:var(--text-lg)]">Materials</h3>
+                  <ul className="mt-[var(--space-xs)]">
                     {project.materials.map((m) => (
-                      <li key={m} className="border-b border-[var(--color-rule)] pb-2">
+                      <li key={m} className="label border-t border-[var(--color-rule)] py-[var(--space-xs)]">
                         {m}
                       </li>
                     ))}
@@ -117,54 +120,42 @@ export default function ProjectDetail({
                 </div>
               </div>
 
-              <div className="mt-10 grid gap-4 sm:grid-cols-2">
-                {project.gallery.slice(1).map((src, i) => (
-                  <div key={src} className="relative aspect-[4/3] overflow-hidden bg-paper-2">
-                    <Image
-                      src={src}
-                      alt={`${project.title}, view ${i + 2}`}
-                      fill
-                      sizes="(min-width: 640px) 384px, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+              <figure className="mt-[var(--space-2xl)] max-w-[40rem]">
+                <Plan plan={project.plan} title={project.title} className="w-full border border-[var(--color-rule)]" />
+                <figcaption className="label mt-[var(--space-xs)] text-muted">Schematic plan, not to scale.</figcaption>
+              </figure>
 
-              <div className="mt-10">
-                <p className="text-sm text-muted">Floor plan</p>
-                <FloorPlan title={project.title} />
-              </div>
-            </div>
-          </motion.div>
+              {project.photos.length > 1 && (
+                <div className="mt-[var(--space-xl)] grid grid-cols-1 gap-[var(--space-md)] sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+                  {project.photos.slice(1).map((ph) => (
+                    <div key={ph.src} className="relative aspect-[4/3] overflow-hidden bg-paper-2">
+                      <Image src={ph.src} alt={ph.alt} fill sizes="(min-width: 640px) 32rem, 100vw" className="object-cover" />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <p className="label mt-[var(--space-md)] text-muted">
+                Photographs are placeholders from {sources}:{" "}
+                {project.photos.map((ph, i) => (
+                  <span key={ph.href}>
+                    <a href={ph.href} className="link" target="_blank" rel="noreferrer">
+                      {i + 1}
+                    </a>
+                    {i < project.photos.length - 1 ? ", " : "."}
+                  </span>
+                ))}
+              </p>
+
+              <p className="mt-[var(--space-xl)]">
+                <a href={mailtoFor(project.title)} className="link text-[length:var(--text-lg)]">
+                  Ask about a project like this
+                </a>
+              </p>
+            </article>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-function FloorPlan({ title }: { title: string }) {
-  return (
-    <svg
-      viewBox="0 0 400 260"
-      role="img"
-      aria-label={`Schematic floor plan of ${title}`}
-      className="mt-3 w-full border border-[var(--color-rule)] bg-paper-2 text-ink/70"
-    >
-      <g fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="30" y="30" width="340" height="200" />
-        <line x1="180" y1="30" x2="180" y2="150" />
-        <line x1="30" y1="150" x2="260" y2="150" />
-        <line x1="260" y1="150" x2="260" y2="230" />
-        <rect x="290" y="60" width="50" height="60" strokeDasharray="4 4" />
-      </g>
-      <g fill="currentColor" fontSize="10" fontFamily="sans-serif" letterSpacing="1">
-        <text x="45" y="95">LIVING</text>
-        <text x="195" y="95">KITCHEN</text>
-        <text x="45" y="195">BED 1</text>
-        <text x="280" y="195">BED 2</text>
-        <text x="295" y="140">COURT</text>
-      </g>
-    </svg>
   );
 }

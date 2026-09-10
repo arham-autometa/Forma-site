@@ -1,28 +1,26 @@
-import Image from "next/image";
-import { projects } from "@/data/projects";
+import { site } from "@/data/site";
 
-/* Photographic fold 1: one image, a caption in the corner, nothing else. */
+/* A short statement and a plain paragraph. The work below is the real hero. */
 export default function Hero() {
-  const p = projects[0];
   return (
-    <section id="top" className="relative h-[92svh] min-h-[520px] w-full">
-      <Image
-        src={p.gallery[0]}
-        alt={`${p.title}, ${p.location}`}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
-      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/60 to-transparent" />
-      <p className="caption absolute bottom-6 left-[var(--page-gutter)] text-on-photo">
-        {p.title}, {p.location}. {p.year}.
-        <br />
-        <span className="opacity-75">{p.materials[0]}, {p.materials[2].toLowerCase()}.</span>
-      </p>
-      <p className="absolute bottom-6 right-[var(--page-gutter)] hidden text-sm text-on-photo/80 sm:block">
-        Architecture &amp; interiors
-      </p>
+    <section aria-label="Introduction" className="shell pb-[var(--space-2xl)] pt-[var(--space-xl)]">
+      <div className="grid gap-[var(--space-lg)] md:grid-cols-12 md:items-end">
+        <p className="display text-[length:var(--text-3xl)] md:col-span-7">
+          Buildings shaped by material, light and use.
+        </p>
+        <div className="md:col-span-4 md:col-start-9">
+          <p className="max-w-[46ch] text-ink-2">
+            Forma designs houses, apartment buildings, boutique hotels, offices and cultural
+            spaces, with the interiors and gardens that belong to them. We stay with each
+            project from the first sketch until the builders leave.
+          </p>
+          <p className="mt-[var(--space-sm)]">
+            <a href={site.mailto} className="link">
+              Start a project
+            </a>
+          </p>
+        </div>
+      </div>
     </section>
   );
 }

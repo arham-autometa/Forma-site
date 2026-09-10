@@ -4,12 +4,13 @@ export const site = {
   phone: "+1 (415) 555-0142",
   address: ["214 Hollis Street", "San Francisco, CA 94107"],
   mailto:
-    "mailto:hello@forma.studio?subject=Project%20inquiry&body=Hello%20Forma%2C%0A%0AI%27d%20like%20to%20talk%20about%20a%20project.%0A%0AProject%20type%3A%0ALocation%3A%0ATimeline%3A%0A",
+    "mailto:hello@forma.studio?subject=Project%20inquiry&body=Hello%20Forma%2C%0A%0AWhere%20the%20site%20is%3A%0AWhat%20it%20is%20for%3A%0AWhen%20we%20hope%20to%20start%3A%0A",
   nav: [
-    { label: "Studio", href: "#studio" },
-    { label: "Services", href: "#services" },
     { label: "Work", href: "#work" },
-    { label: "Process", href: "#process" },
+    { label: "Practice", href: "#practice" },
     { label: "Contact", href: "#contact" },
   ],
 };
+
+export const mailtoFor = (title: string) =>
+  `mailto:${site.email}?subject=${encodeURIComponent(`A project like ${title}`)}`;
