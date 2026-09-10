@@ -18,10 +18,8 @@ const layout = [
   { span: "md:col-span-4", ratio: "aspect-[3/4]", offset: "md:mt-[var(--space-4xl)]", sizes: "(min-width: 768px) 33vw, 100vw" },
 ];
 
-const toggle = (on: boolean) =>
-  `label num inline-flex cursor-pointer items-baseline gap-1 whitespace-nowrap py-1.5 transition-colors duration-[var(--dur-fast)] active:text-ink-2 disabled:cursor-not-allowed disabled:opacity-55 ${
-    on ? "text-ink underline decoration-1 underline-offset-[0.35em]" : "text-muted hover:text-ink"
-  }`;
+/* Pressed styling comes from aria-pressed in the .chip rule (globals.css). */
+const chip = "chip label num";
 
 export default function Projects() {
   const [filter, setFilter] = useState<Filter>("All");
@@ -49,7 +47,7 @@ export default function Projects() {
           </p>
         </div>
         <div className="flex flex-col gap-[var(--space-xs)] md:items-end">
-          <div role="group" aria-label="Filter by type" className="flex flex-wrap gap-x-[var(--space-md)] md:justify-end">
+          <div role="group" aria-label="Filter by type" className="flex flex-wrap gap-[var(--space-xs)] md:justify-end">
             {(["All", ...TAGS] as Filter[]).map((f) => {
               const n = count(f);
               return (
@@ -59,7 +57,7 @@ export default function Projects() {
                   aria-pressed={filter === f}
                   disabled={n === 0}
                   onClick={() => setFilter(f)}
-                  className={toggle(filter === f)}
+                  className={chip}
                 >
                   {f}
                   <span className="text-[length:var(--text-xs)]">{n}</span>
@@ -67,9 +65,9 @@ export default function Projects() {
               );
             })}
           </div>
-          <div role="group" aria-label="Layout" className="flex gap-x-[var(--space-md)]">
+          <div role="group" aria-label="Layout" className="flex gap-[var(--space-xs)]">
             {(["Grid", "Index"] as View[]).map((v) => (
-              <button key={v} type="button" aria-pressed={view === v} onClick={() => setView(v)} className={toggle(view === v)}>
+              <button key={v} type="button" aria-pressed={view === v} onClick={() => setView(v)} className={chip}>
                 {v}
               </button>
             ))}
@@ -87,7 +85,7 @@ export default function Projects() {
             return (
               <li key={p.slug} className={`${l.span} ${l.offset}`}>
                 <article className="group relative">
-                  <div className={`relative ${l.ratio} overflow-hidden bg-paper-2`}>
+                  <div className={`relative ${l.ratio} overflow-hidden rounded-[var(--radius-card)] bg-paper-2`}>
                     <Image src={p.photos[0].src} alt={p.photos[0].alt} fill sizes={l.sizes} className="object-cover" />
                   </div>
                   <div className="mt-[var(--space-sm)] flex items-baseline justify-between gap-[var(--space-md)]">
@@ -127,7 +125,7 @@ export default function Projects() {
                   className="group relative border-t border-[var(--color-rule)] transition-colors duration-[var(--dur-fast)] hover:bg-paper-2"
                 >
                   <div className="grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-[var(--space-md)] py-[var(--space-sm)] md:grid-cols-[minmax(0,1fr)_minmax(0,10rem)_minmax(0,12rem)_3.5rem] md:py-[var(--space-md)]">
-                    <div className="relative aspect-square w-16 overflow-hidden bg-paper-2 md:hidden">
+                    <div className="relative aspect-square w-16 overflow-hidden rounded-[var(--radius-card)] bg-paper-2 md:hidden">
                       <Image src={p.photos[0].src} alt="" fill sizes="64px" className="object-cover" />
                     </div>
                     <div className="min-w-0">
@@ -155,7 +153,7 @@ export default function Projects() {
           </div>
           <div className="hidden md:col-span-4 md:block">
             <div className="sticky top-[var(--space-lg)]">
-              <div className="relative aspect-[4/5] overflow-hidden bg-paper-2">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-paper-2">
                 {list.map((p) => (
                   <Image
                     key={p.slug}

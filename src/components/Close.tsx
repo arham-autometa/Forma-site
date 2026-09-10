@@ -38,7 +38,7 @@ export function Colophon() {
           {site.email}
         </a>
         . Architecture, interior design, landscape integration, renovation and project oversight.
-        Set in Archivo and Newsreader. Project photographs are placeholders from Pexels and
+        Set in Inter and JetBrains Mono. Project photographs are placeholders from Pexels and
         Unsplash, credited on each project. © {new Date().getFullYear()}.
       </p>
     </footer>

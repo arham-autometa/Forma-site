@@ -15,7 +15,7 @@ export default function Hero() {
             project from the first sketch until the builders leave.
           </p>
           <p className="mt-[var(--space-sm)]">
-            <a href={site.mailto} className="link">
+            <a href={site.mailto} className="btn-primary">
               Start a project
             </a>
           </p>

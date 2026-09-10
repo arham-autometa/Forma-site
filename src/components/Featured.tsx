@@ -24,7 +24,7 @@ export default function Featured() {
         </div>
 
         <figure className="mt-[var(--space-xl)]">
-          <div className="relative aspect-[4/5] overflow-hidden bg-paper-3 sm:aspect-[16/9]">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-paper-3 sm:aspect-[16/9]">
             <Image src={cover.src} alt={cover.alt} fill sizes="(min-width: 96rem) 96rem, 100vw" className="object-cover" />
           </div>
           <figcaption className="label mt-[var(--space-xs)] text-muted">
@@ -59,20 +59,20 @@ export default function Featured() {
             </ul>
 
             <p className="mt-[var(--space-xl)]">
-              <a href={mailtoFor(p.title)} className="link">
-                Ask about a house like this
+              <a href={mailtoFor(p.title)} className="btn-primary">
+                Discuss a similar house
               </a>
             </p>
           </div>
 
           <div className="flex flex-col gap-[var(--space-xl)] md:col-span-5 md:col-start-8">
             <figure>
-              <Plan plan={p.plan} title={p.title} className="w-full border border-[var(--color-rule)]" />
+              <Plan plan={p.plan} title={p.title} className="w-full rounded-[var(--radius-card)] border border-[var(--color-rule)]" />
               <figcaption className="label mt-[var(--space-xs)] text-muted">Ground floor, schematic, not to scale.</figcaption>
             </figure>
             {second && (
               <figure>
-                <div className="relative aspect-[4/3] overflow-hidden bg-paper-3">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-paper-3">
                   <Image src={second.src} alt={second.alt} fill sizes="(min-width: 768px) 40vw, 100vw" className="object-cover" />
                 </div>
                 <figcaption className="label mt-[var(--space-xs)] text-muted">

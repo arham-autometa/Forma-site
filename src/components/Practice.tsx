@@ -38,7 +38,7 @@ export default function Practice() {
 
       <div className="mt-[var(--space-3xl)] grid gap-[var(--space-xl)] md:grid-cols-12">
         <figure className="md:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden bg-paper-2">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-paper-2">
             <Image src={construction.src} alt={construction.alt} fill sizes="(min-width: 768px) 40vw, 100vw" className="object-cover" />
           </div>
           <figcaption className="label mt-[var(--space-xs)] text-muted">

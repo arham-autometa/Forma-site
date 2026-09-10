@@ -22,7 +22,7 @@ Images are hotlinked from Unsplash; swap the photo IDs in `projects.ts` for the 
 ## Design system
 
 The page follows a Hallmark "Portfolio Grid" structure: a masthead, a short statement, a filterable work index with grid and list views, one project told in full, the practice, and a dark inquiry band.
-Design tokens (OKLCH colours, Archivo and Newsreader type scale, spacing, easings) live in `src/app/tokens.css` and are the only source of colour and font values.
+The locked design system is `design.md` at the project root. Its tokens (colours, Inter and JetBrains Mono type, spacing, radii, easings) live in `src/app/tokens.css`, the only source of colour and font values.
 Each project's schematic plan is drawn from the `plan.rooms` data in `src/data/projects.ts`.
 `.hallmark/log.json` records design choices so future runs rotate away from them.
 

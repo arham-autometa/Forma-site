@@ -31,7 +31,7 @@ export default function Plan({ plan, title, className }: { plan: PlanData; title
               <text
                 x={r.x + 1.8}
                 y={r.y + 4.2}
-                style={{ fill: "var(--color-ink-2)", fontFamily: "var(--font-display)", fontSize: 2.7 }}
+                style={{ fill: "var(--color-ink-2)", fontFamily: "var(--font-mono)", fontSize: 2.4 }}
               >
                 {r.label}
               </text>
@@ -50,7 +50,7 @@ export default function Plan({ plan, title, className }: { plan: PlanData; title
         <g transform={`translate(${plan.w - 3} ${plan.h + 3})`}>
           <path d="M0 7 L0 1" vectorEffect="non-scaling-stroke" style={{ ...line, strokeWidth: 1 }} />
           <path d="M-1.4 2.6 L0 0 L1.4 2.6 Z" style={{ fill: "var(--color-plan-line)" }} />
-          <text x={-6} y={6.6} style={{ fill: "var(--color-ink-2)", fontFamily: "var(--font-display)", fontSize: 2.7 }}>
+          <text x={-6} y={6.6} style={{ fill: "var(--color-ink-2)", fontFamily: "var(--font-mono)", fontSize: 2.4 }}>
             N
           </text>
         </g>

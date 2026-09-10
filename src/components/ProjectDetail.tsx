@@ -92,7 +92,7 @@ export default function ProjectDetail({ project, onClose }: { project: Project |
                 ))}
               </dl>
 
-              <div className="relative mt-[var(--space-xl)] aspect-[3/2] overflow-hidden bg-paper-2">
+              <div className="relative mt-[var(--space-xl)] aspect-[3/2] overflow-hidden rounded-[var(--radius-card)] bg-paper-2">
                 <Image src={project.photos[0].src} alt={project.photos[0].alt} fill sizes="(min-width: 1024px) 64rem, 100vw" className="object-cover" />
               </div>
 
@@ -121,14 +121,14 @@ export default function ProjectDetail({ project, onClose }: { project: Project |
               </div>
 
               <figure className="mt-[var(--space-2xl)] max-w-[40rem]">
-                <Plan plan={project.plan} title={project.title} className="w-full border border-[var(--color-rule)]" />
+                <Plan plan={project.plan} title={project.title} className="w-full rounded-[var(--radius-card)] border border-[var(--color-rule)]" />
                 <figcaption className="label mt-[var(--space-xs)] text-muted">Schematic plan, not to scale.</figcaption>
               </figure>
 
               {project.photos.length > 1 && (
                 <div className="mt-[var(--space-xl)] grid grid-cols-1 gap-[var(--space-md)] sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
                   {project.photos.slice(1).map((ph) => (
-                    <div key={ph.src} className="relative aspect-[4/3] overflow-hidden bg-paper-2">
+                    <div key={ph.src} className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-paper-2">
                       <Image src={ph.src} alt={ph.alt} fill sizes="(min-width: 640px) 32rem, 100vw" className="object-cover" />
                     </div>
                   ))}
@@ -148,8 +148,8 @@ export default function ProjectDetail({ project, onClose }: { project: Project |
               </p>
 
               <p className="mt-[var(--space-xl)]">
-                <a href={mailtoFor(project.title)} className="link text-[length:var(--text-lg)]">
-                  Ask about a project like this
+                <a href={mailtoFor(project.title)} className="btn-primary">
+                  Discuss a similar project
                 </a>
               </p>
             </article>

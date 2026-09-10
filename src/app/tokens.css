@@ -1,59 +1,71 @@
-/* Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V5 · contrast: pass (40–41) · slop: pass (42–45) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · mobile: pass (34, 49, 50–57) */
-/* Hallmark · genre: editorial · macrostructure: Portfolio Grid · theme: custom
- * vibe: "board-formed concrete, oiled oak, corten, north light"
- * paper oklch(94.5% 0.006 85) · accent oklch(52% 0.13 42) corten · Archivo (display, condensed) + Newsreader (body)
- * axes: light / grotesk-sans / warm · differs from last build (Photographic, Fraunces serif) on display style
- * enrichment: Tier B hand-built SVG schematic plans · nav: N6 masthead (left-set) · footer: Ft4 dense colophon
- * tone: austere · audience: homeowners, developers, businesses · use: project inquiry by email
+/* Hallmark · pre-emit critique: P4 H4 E5 S4 R5 V4 · contrast: pass (40–41) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · mobile: pass (34, 49, 50–57) */
+/* Hallmark · genre: modern-minimal · macrostructure: Portfolio Grid · design-system: design.md · designed-as-app
+ * tokens from design.md (NeuroSync token spec) · primary #CC8066 · surface #191C21 · Inter + JetBrains Mono
+ * structure, layout and motion preserved from the previous build · nav: N6 · footer: Ft4
  */
 :root {
-  /* paper and ink */
-  --color-paper: oklch(94.5% 0.006 85);
-  --color-paper-2: oklch(91% 0.008 85);
-  --color-paper-3: oklch(86.5% 0.01 85);
-  --color-ink: oklch(19% 0.01 60);
-  --color-ink-2: oklch(33% 0.01 60);
-  --color-muted: oklch(47% 0.012 65);
-  --color-rule: oklch(19% 0.01 60 / 0.16);
-  --color-rule-strong: oklch(19% 0.01 60);
+  /* source palette (design.md) */
+  --color-primary: #cc8066;
+  --color-secondary: #ffffff;
+  --color-accent-slate: #334155;
+  --color-background: #ffffff;
+  --color-surface: #191c21;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-border: #e5e7eb;
 
-  /* one accent: corten */
-  --color-accent: oklch(52% 0.13 42);
-  --color-accent-ink: oklch(97% 0.005 85);
-  --color-accent-on-ink: oklch(74% 0.11 48);
-  --color-focus: oklch(52% 0.13 42);
+  /* semantic roles used by the components */
+  --color-paper: var(--color-background);
+  --color-paper-2: color-mix(in srgb, var(--color-border) 35%, var(--color-background));
+  --color-paper-3: color-mix(in srgb, var(--color-border) 70%, var(--color-background));
+  --color-ink: var(--color-text-primary);
+  --color-ink-2: var(--color-accent-slate);
+  --color-muted: var(--color-text-secondary);
+  --color-rule: var(--color-border);
+  --color-rule-strong: var(--color-text-primary);
 
-  /* the plate (one dark band) */
-  --color-plate: oklch(19% 0.01 60);
-  --color-on-plate: oklch(93% 0.006 85);
-  --color-on-plate-muted: oklch(72% 0.01 80);
-  --color-rule-on-plate: oklch(93% 0.006 85 / 0.18);
-  --color-scrim: oklch(19% 0.01 60 / 0.55);
+  --color-accent: var(--color-primary);
+  --color-accent-strong: color-mix(in srgb, var(--color-primary) 72%, var(--color-text-primary));
+  --color-accent-hover: color-mix(in srgb, var(--color-primary) 88%, var(--color-text-primary));
+  --color-accent-ink: var(--color-text-primary);
+  --color-accent-on-ink: var(--color-primary);
+  --color-focus: var(--color-primary);
 
-  /* plan drawings */
-  --color-plan-line: oklch(19% 0.01 60);
-  --color-plan-fill: oklch(91% 0.008 85);
-  --color-plan-open: oklch(52% 0.13 42 / 0.12);
+  --color-plate: var(--color-surface);
+  --color-on-plate: var(--color-secondary);
+  --color-on-plate-muted: color-mix(in srgb, var(--color-secondary) 70%, var(--color-surface));
+  --color-rule-on-plate: color-mix(in srgb, var(--color-secondary) 18%, transparent);
+  --color-scrim: color-mix(in srgb, var(--color-surface) 60%, transparent);
 
-  /* type */
-  --font-display: var(--font-archivo), "Arial Narrow", system-ui, sans-serif;
-  --font-body: var(--font-newsreader), Georgia, serif;
-  --display-stretch: 82%;
-  --display-weight: 560;
-  --tracking-display: -0.025em;
-  --tracking-label: 0.02em;
+  --color-plan-line: var(--color-text-primary);
+  --color-plan-fill: var(--color-paper-2);
+  --color-plan-open: color-mix(in srgb, var(--color-primary) 16%, var(--color-background));
+
+  /* type (design.md) */
+  --font-display: var(--font-inter), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --display-stretch: 100%;
+  --display-weight: 500;
+  --tracking-display: 0;
+  --tracking-label: 0;
+  --lh-display: 1.04;
+  --lh-body: 1.6;
+  --lh-label: 1.2;
+  --label-size: 0.75rem;
+  --label-weight: 600;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
-  --text-md: 1.0625rem;
-  --text-lg: 1.25rem;
-  --text-xl: 1.625rem;
-  --text-2xl: clamp(1.75rem, 2vw + 1rem, 2.5rem);
-  --text-3xl: clamp(2.25rem, 3.2vw + 1rem, 3.75rem);
-  --text-display: clamp(2.75rem, 5vw + 1rem, 5.5rem);
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: clamp(1.5rem, 1.4vw + 1rem, 2.125rem);
+  --text-3xl: clamp(2rem, 2.4vw + 1rem, 3.25rem);
+  --text-display: clamp(2.5rem, 3.6vw + 1rem, 4rem);
   --text-wordmark: clamp(3.5rem, 8vw + 1rem, 7rem);
 
-  /* 4pt spacing */
+  /* spacing: existing scale, which already matches design.md base 8 / gap 16 / card 24 */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
@@ -63,10 +75,17 @@
   --space-2xl: 4rem;
   --space-3xl: 6rem;
   --space-4xl: 9rem;
+  --space-section: 5rem; /* design.md section padding, recorded but not applied */
   --page-gutter: clamp(1rem, 3.2vw, 3rem);
   --shell: 96rem;
 
-  /* motion */
+  /* radius (design.md) */
+  --radius-card: 8px;
+  --radius-control: 8px;
+  --radius-pill: 9999px;
+  --radius-none: 0;
+
+  /* motion (unchanged) */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -76,6 +95,5 @@
 
   --rule-hair: 1px solid var(--color-rule);
   --rule-ink: 1px solid var(--color-rule-strong);
-  --radius-none: 0;
   --z-panel: 50;
 }
