@@ -20,10 +20,11 @@ There is no test suite.
 
 ## Architecture
 
-- `app/page.js` composes the page from `components/` in order: Header (newspaper-style masthead), Hero (manifesto statement), Services (declarations on a dark bleed, then a numbered process list), About (B&W photo bleed), Contact (book-a-call block, then the form), Footer (mono colophon). `components/Ticker.js` is unused and left from the previous design. Sections are anchored by `id` (`top`, `services`, `about`, `contact`) and the Header nav links to them.
-- **Design tokens live in `tokens.css`** at the project root (OKLCH colours, type scale, 4pt spacing, easings). `app/globals.css` imports it, then Tailwind, then maps tokens into a Tailwind v4 `@theme` block. Sections are styled with plain classes in `globals.css`; every colour and font must reference a token.
-- **Hallmark build.** Manifesto macrostructure, N6 masthead, Ft4 colophon; the Brutal theme colours were replaced by `design.md`. The stamp at the top of `globals.css` and `.hallmark/log.json` record the picks; a future Hallmark run must rotate away from them.
-- **`design.md` at the project root is the locked design system.** `tokens.css` mirrors it; change `design.md` first, then the tokens. Fonts are loaded in `app/layout.js` via `next/font/google` (Inter for display and body, JetBrains Mono for labels) and mapped in `tokens.css` to `--font-display` / `--font-body` / `--font-outlier`.
-- **Server vs client**: components are server components by default. Only `Contact` (form state) and `Reveal` (Framer Motion) are `"use client"`. `Reveal` is the single motion primitive: one horizontal sweep on section entry, once, reduced-motion aware.
+- `app/page.js` composes the page from `components/` in order: Header, Hero, Services, About, Contact, Footer. Sections are anchored by `id` (`top`, `services`, `about`, `contact`) and the Header nav links to them.
+- **Styling is Tailwind v4**: there is no `tailwind.config.js`. The palette (`cream`, `sand`, `stone`, `clay`, `bark`, `moss`) and font families are declared in `@theme` in `app/globals.css`, so `bg-sand`, `text-clay`, `font-serif`, etc. work as utilities. Add new design tokens there, not in a config file.
+- Fonts are loaded in `app/layout.js` via `next/font/google` (Fraunces for headings, Inter for body) and exposed as CSS variables that `globals.css` maps into `--font-serif` / `--font-sans`. `h1`–`h3` get the serif face globally.
+- `design.md` at the project root is an imported design spec that is not applied to the site.
+- **Server vs client**: components are server components by default. Only `Header` (mobile menu state), `Contact` (form state), and `Reveal` (Framer Motion) are `"use client"`. Keep it that way; wrap new animated blocks in `Reveal` rather than importing `framer-motion` into more components.
+- `components/Reveal.js` is the single scroll-animation primitive (fade + slide-up, plays once). Accepts `delay` and `className`.
 - The contact form in `components/Contact.js` validates client-side and currently only `console.log`s the payload at the `TODO`. Any real backend (API route or form service) plugs in there.
 - Photos in `public/placeholders/` are Unsplash stock (credited in captions) referenced with `next/image` using `fill`; swap in the practice's own photography by replacing the files and updating `alt` text and captions.

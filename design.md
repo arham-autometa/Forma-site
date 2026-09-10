@@ -1,3 +1,4 @@
+---
 version: "neuform-staff-featured-2026-05-22"
 name: "NeuroSync | Master Your Mind"
 description: "Neurosync Master Feature Section is designed for highlighting product capabilities and value points. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for component libraries and responsive product interfaces."
@@ -43,38 +44,33 @@ components:
   button:
     background: "Use primary or accent colors for the main action"
     radius: "Use the control or pill radius based on the source HTML"
-***NeuroSync | Master Your Mind
+---
+# NeuroSync | Master Your Mind
 Source: Neuform staff featured templates. Author: Meng To (@mengto). Views: 1247; favorites: 51; remixes: 35.
 Tags: feature, section, animated, cta, bento, charts.
-Overview
+## Overview
 Neurosync Master Feature Section is designed for highlighting product capabilities and value points. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for component libraries and responsive product interfaces.
 
 NeuroSync Features Integrations Enterprise Pricing Get Started Think Faster. Master Your Mind. Cognitive Load Tracking Real-time mental bandwidth metrics. Neural Pathway Mapping Visualizing thought patterns and flow sta…
-Composition
+## Composition
 Use the attached HTML reference as the source of truth. Preserve the visible hierarchy, first-screen composition, section rhythm, density, and interaction tone before adapting copy or content.
 Key visible headings include: Think Faster. Master Your Mind.; Cognitive Load Tracking; Neural Pathway Mapping; Adaptive Focus Protocols.
-Colors
+## Colors
 Anchor the palette in primary #CC8066, secondary #FFFFFF, accent #334155, background #FFFFFF, surface #191C21, text-primary #111827. Keep background, surface, text, and border roles distinct so generated layouts retain the same contrast pattern as the source.
-Typography
+## Typography
 Use Inter for display moments and Inter for body copy unless the HTML clearly demands a compatible fallback. Labels and technical metadata should use JetBrains Mono or an equivalent mono face.
-Layout
+## Layout
 Keep spacing deliberate and stable. Favor the same grid direction, max-width behavior, card density, and responsive stacking seen in the HTML. Do not replace distinctive source structures with generic SaaS sections.
-Components
+## Components
 Dashboard, chart, and data panels should preserve their compact operational hierarchy, nested surfaces, and metric emphasis.
-Motion
+## Motion
 Preserve existing motion cues such as masked reveals, staggered entrance, hover lift, scroll-triggered transitions, and ambient movement. Keep easing smooth and restrained.
-WebGL & Effects
+## WebGL & Effects
 
 If the source includes canvas, WebGL, Three.js, gradients, particles, or atmospheric effects, rebuild them as supporting layers behind the content. Keep effects performant, responsive, and secondary to the interface.
 
-Guardrails
-Do not flatten the source into a generic card grid.
-Do not swap the color mode unless the source clearly supports it.
-Preserve the first viewport signal, focal object, and visual density.
-Keep buttons, cards, and badges aligned to the same radius and border language.
-## Provenance
-Applied 2026-09-09 to the Forma site as a visual layer over the Hallmark Manifesto build. Structure, layout and motion unchanged. Tokens mirrored in `tokens.css`.
-
-## Exports
-### tokens.css
-See `tokens.css` at the project root. Roles: `--color-paper` = background, `--color-ink` = text-primary, `--color-neutral` = text-secondary, `--color-rule` = border, `--color-band` = surface (bleed sections, white text), `--color-primary` = primary (actions), `--color-accent` = accent (highlight block, hover).
+## Guardrails
+- Do not flatten the source into a generic card grid.
+- Do not swap the color mode unless the source clearly supports it.
+- Preserve the first viewport signal, focal object, and visual density.
+- Keep buttons, cards, and badges aligned to the same radius and border language.

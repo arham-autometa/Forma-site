@@ -1,13 +1,14 @@
-// Ft4 · Dense colophon.
 export default function Footer() {
   return (
-    <footer className="foot-dense">
-      <p>
-        Forma, architecture studio, run by one architect. Houses, workplaces, interiors, landscape.
-        Set in Inter and JetBrains Mono. Portrait photograph by <a href="https://unsplash.com/photos/WUY0W2RSiBw">GN Group</a> on Unsplash, stock until replaced.
-        Write to <a href="mailto:hello@forma.studio">hello@forma.studio</a>. Studio address to be added.
-        © {new Date().getFullYear()} Forma.
-      </p>
+    <footer className="border-t border-sand">
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 text-xs uppercase tracking-widest text-stone sm:flex-row sm:items-center sm:justify-between">
+        <span>© {new Date().getFullYear()} Forma</span>
+        <div className="flex gap-6">
+          <a href="mailto:hello@forma.studio" className="hover:text-clay">Email</a>
+          <a href="#" className="hover:text-clay">Instagram</a>
+          <a href="#" className="hover:text-clay">LinkedIn</a>
+        </div>
+      </div>
     </footer>
   );
 }

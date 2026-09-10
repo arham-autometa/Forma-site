@@ -1,36 +1,32 @@
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  axes: ["opsz"],
+});
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  weight: ["600"],
-  display: "swap",
 });
 
 export const metadata = {
   title: "Forma — Architecture Studio",
   description:
-    "Forma is a solo architecture practice. Houses first, then workplaces, interiors and the landscape around them.",
+    "Forma is a solo architecture practice designing calm, material-led homes, workplaces and landscapes.",
   openGraph: {
     title: "Forma — Architecture Studio",
-    description: "A solo architecture practice. Houses first.",
+    description:
+      "Calm, material-led architecture for homes, workplaces and landscapes.",
     images: ["/placeholders/hero.jpg"],
   },
 };
 
-export const viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
-
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrains.variable} antialiased`}>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable} antialiased`}>
       <body className="min-h-screen flex flex-col">{children}</body>
     </html>
   );

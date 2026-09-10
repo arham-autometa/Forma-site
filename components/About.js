@@ -1,41 +1,64 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
 
+const principles = [
+  { title: "Site first", body: "Orientation, views and ground conditions shape the plan before style does." },
+  { title: "Fewer, better materials", body: "A restrained palette that ages gracefully and needs little upkeep." },
+  { title: "One point of contact", body: "You work directly with me from the first meeting to handover." },
+];
+
 export default function About() {
   return (
-    <section id="about" className="about bleed-ink">
-      <figure className="about__photo" style={{ margin: 0 }}>
-        <Image
-          src="/placeholders/portrait.jpg"
-          alt="An architect at a drawing desk studying a card model of a house on a contoured site"
-          width={1200}
-          height={1500}
-          sizes="(min-width: 60rem) 42vw, 100vw"
-          loading="lazy"
-        />
-        <figcaption>
-          Stock · <a href="https://unsplash.com/photos/WUY0W2RSiBw">GN Group</a> · replace with the principal
-        </figcaption>
-      </figure>
-      <Reveal className="about__text">
-        <h2>One architect, by intent</h2>
-        <p>
-          Forma is a solo practice. The person who draws the first sketch is
-          the same person who checks the last detail on site, and the same
-          person who answers the phone.
-        </p>
-        <p>
-          A few honest materials, used well, left to age. Timber, lime render,
-          stone and steel.
-        </p>
-        <p>
-          Homeowners come first. Small commercial and workplace projects are
-          taken on when the fit is right.
-        </p>
-        <p className="claim claim--muted">
-          Biography, qualifications and registration to be supplied by the practice.
-        </p>
-      </Reveal>
+    <section id="about" className="py-24">
+      <div className="mx-auto grid max-w-6xl gap-12 px-6 md:grid-cols-12 md:gap-16">
+        <Reveal className="md:col-span-5">
+          <figure>
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-sand">
+              {/* Stock photograph (Unsplash License). Replace with the principal's own portrait. */}
+              <Image
+                src="/placeholders/portrait.jpg"
+                alt="An architect at a drawing desk studying a card model of a house on a contoured site"
+                fill
+                sizes="(min-width: 48rem) 40vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <figcaption className="mt-3 text-xs text-stone">
+              Stock photograph by <a href="https://unsplash.com/photos/WUY0W2RSiBw" className="underline underline-offset-2">GN Group</a> on Unsplash, to be replaced with the principal&apos;s portrait.
+            </figcaption>
+          </figure>
+        </Reveal>
+
+        <div className="md:col-span-7">
+          <Reveal>
+            <p className="mb-6 text-xs uppercase tracking-[0.3em] text-stone">About</p>
+            <h2 className="text-3xl leading-tight md:text-5xl">
+              Forma is run by one architect, on purpose.
+            </h2>
+            <div className="mt-8 space-y-4 leading-relaxed text-stone">
+              <p>
+                I set up Forma after a decade in larger studios, wanting to
+                spend more time on fewer projects. Working alone means the
+                person who draws the first sketch is the same one who checks
+                the last detail on site.
+              </p>
+              <p>
+                I take on a handful of projects a year: houses, small
+                workplaces, interiors and the landscapes around them.
+              </p>
+            </div>
+          </Reveal>
+
+          <dl className="mt-12 grid gap-8 border-t border-sand pt-8 sm:grid-cols-3">
+            {principles.map((p, i) => (
+              <Reveal key={p.title} delay={i * 0.1}>
+                <dt className="font-serif text-lg">{p.title}</dt>
+                <dd className="mt-2 text-sm leading-relaxed text-stone">{p.body}</dd>
+              </Reveal>
+            ))}
+          </dl>
+        </div>
+      </div>
     </section>
   );
 }
