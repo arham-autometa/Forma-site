@@ -1,70 +1,76 @@
-# Design — Forma
+---
+version: "neuform-staff-featured-2026-05-22"
+name: "NeuroSync | Master Your Mind"
+description: "Neurosync Master Feature Section is designed for highlighting product capabilities and value points. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for component libraries and responsive product interfaces."
+colors:
+  primary: "#CC8066"
+  secondary: "#FFFFFF"
+  accent: "#334155"
+  background: "#FFFFFF"
+  surface: "#191C21"
+  text-primary: "#111827"
+  text-secondary: "#4B5563"
+  border: "#E5E7EB"
+typography:
+  display-lg:
+    fontFamily: "Inter"
+    fontSize: "64px"
+    fontWeight: 500
+    lineHeight: "1.04"
+    letterSpacing: "0"
+  body-md:
+    fontFamily: "Inter"
+    fontSize: "16px"
+    fontWeight: 400
+    lineHeight: "1.6"
+  label-md:
+    fontFamily: "JetBrains Mono"
+    fontSize: "12px"
+    fontWeight: 600
+    lineHeight: "1.2"
+spacing:
+  base: "8px"
+  gap: "16px"
+  card-padding: "24px"
+  section-padding: "80px"
+rounded:
+  card: "8px"
+  control: "8px"
+  pill: "9999px"
+components:
+  card:
+    background: "Use the surface token with subtle borders and HTML-matched shadow depth"
+    radius: "Match the declared card radius token"
+  button:
+    background: "Use primary or accent colors for the main action"
+    radius: "Use the control or pill radius based on the source HTML"
+---
+# NeuroSync | Master Your Mind
+Source: Neuform staff featured templates. Author: Meng To (@mengto). Views: 1247; favorites: 51; remixes: 35.
+Tags: feature, section, animated, cta, bento, charts.
+## Overview
+Neurosync Master Feature Section is designed for highlighting product capabilities and value points. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for component libraries and responsive product interfaces.
 
-Locked design system. Future Hallmark runs read this file first; pages defer
-to it. Amend intentionally — the file is the rule.
-
-## Provenance
-- Source · `neurosync-master-your-mind-1-DESIGN.md`, a token spec from the Neuform template "NeuroSync | Master Your Mind" (Meng To), supplied by the project owner on 2026-09-10.
-- Adopted · colour roles, type roles and sizes, spacing base, radii, button and card language.
-- Not adopted · the source's copy, product content, section composition, motion cues and WebGL notes. Forma keeps its own structure, layout and motion.
-
-## System
-- Genre · modern-minimal
-- Macrostructure · Portfolio Grid (unchanged)
-- Theme · design.md tokens: white background, terracotta primary, slate accent, near-black surface
-- Axes · light / sans (Inter) / warm
-- Nav · N6 masthead · Footer · Ft4 dense colophon (both unchanged)
-
-## Colour roles
-| Role | Value | Forma token | Used for |
-| --- | --- | --- | --- |
-| primary | #CC8066 | `--color-primary` → `--color-accent` | primary buttons, focus ring, plan open areas, hover on dark |
-| secondary | #FFFFFF | `--color-secondary` → `--color-on-plate` | text on surface |
-| accent | #334155 | `--color-accent-slate` → `--color-ink-2` | pressed filter chips, secondary emphasis |
-| background | #FFFFFF | `--color-background` → `--color-paper` | page |
-| surface | #191C21 | `--color-surface` → `--color-plate` | inquiry band, panel scrim |
-| text-primary | #111827 | `--color-text-primary` → `--color-ink` | headings, body, text on primary fills |
-| text-secondary | #4B5563 | `--color-text-secondary` → `--color-muted` | meta, captions |
-| border | #E5E7EB | `--color-border` → `--color-rule` | hairlines, chip and frame borders |
-
-Derived tokens mix the roles above and add no new hues:
-- `--color-accent-strong` · primary 72% into text-primary · small-text hover, 4.9:1 on white
-- `--color-paper-2` / `--color-paper-3` · border 35% / 70% into background · alternate section, image placeholders
-- `--color-on-plate-muted` · secondary 70% into surface
-
+NeuroSync Features Integrations Enterprise Pricing Get Started Think Faster. Master Your Mind. Cognitive Load Tracking Real-time mental bandwidth metrics. Neural Pathway Mapping Visualizing thought patterns and flow sta…
+## Composition
+Use the attached HTML reference as the source of truth. Preserve the visible hierarchy, first-screen composition, section rhythm, density, and interaction tone before adapting copy or content.
+Key visible headings include: Think Faster. Master Your Mind.; Cognitive Load Tracking; Neural Pathway Mapping; Adaptive Focus Protocols.
+## Colors
+Anchor the palette in primary #CC8066, secondary #FFFFFF, accent #334155, background #FFFFFF, surface #191C21, text-primary #111827. Keep background, surface, text, and border roles distinct so generated layouts retain the same contrast pattern as the source.
 ## Typography
-| Role | Face | Size | Weight | Line height | Tracking |
-| --- | --- | --- | --- | --- | --- |
-| display-lg | Inter | 64px (clamps down to 40px) | 500 | 1.04 | 0 |
-| body-md | Inter | 16px | 400 | 1.6 | 0 |
-| label-md | JetBrains Mono | 12px | 600 | 1.2 | 0 |
-
-Headings, the wordmark and section heads use the display role at their existing scale steps.
-Labels cover nav links, meta rows, filters, table cells, captions, plan labels and the colophon.
-
-## Spacing and radius
-- Base 8px (`--space-xs`) · gap 16px (`--space-md`) · card padding 24px (`--space-lg`)
-- Section padding 80px is recorded as `--space-section` but not applied (see Notes)
-- Radius · card 8px · control 8px · pill 9999px
-
+Use Inter for display moments and Inter for body copy unless the HTML clearly demands a compatible fallback. Labels and technical metadata should use JetBrains Mono or an equivalent mono face.
+## Layout
+Keep spacing deliberate and stable. Favor the same grid direction, max-width behavior, card density, and responsive stacking seen in the HTML. Do not replace distinctive source structures with generic SaaS sections.
 ## Components
-- Primary button · primary fill, text-primary label, 8px radius, 12px by 20px padding. Hover darkens the fill. No movement.
-- Filter chip · pill radius, 1px border, mono label. Pressed is a slate fill with a white label.
-- Image frame and plan · 8px radius, border colour for outlines, no shadow on the light ground.
-- Text link · Inter 500, 1px underline, accent-strong on hover.
+Dashboard, chart, and data panels should preserve their compact operational hierarchy, nested surfaces, and metric emphasis.
+## Motion
+Preserve existing motion cues such as masked reveals, staggered entrance, hover lift, scroll-triggered transitions, and ambient movement. Keep easing smooth and restrained.
+## WebGL & Effects
 
-## Motion stance
-- Unchanged from the existing build: filter crossfade, index preview crossfade, panel fade, colour-only hovers.
-- Reduced motion · transitions collapse to 1ms.
+If the source includes canvas, WebGL, Three.js, gradients, particles, or atmospheric effects, rebuild them as supporting layers behind the content. Keep effects performant, responsive, and secondary to the interface.
 
-## Notes
-- Owner instruction for this system: restyle only. Structure, layout and animation stay as built.
-- Hallmark's modern-minimal genre lists the N6 masthead as editorial vocabulary. It is kept because the owner asked for structure to stay unchanged.
-- Inter for both display and body is normally a Hallmark tell. It is kept because this file is the owner's chosen system, and JetBrains Mono labels supply the pairing.
-- Source motion (masked reveals, staggered entrance, hover lift, ambient movement) and WebGL layers are intentionally not adopted.
-- Source section padding (80px) would move every section, so the existing spacing stays.
-- Source hex values stay as hex, not OKLCH, so they match the supplied file exactly.
-- #CC8066 on white is only 3.1:1. Use it for fills, large text and focus rings, never for small text.
-
-## Exports
-`src/app/tokens.css` is the source of truth. `src/app/globals.css` maps it to Tailwind v4 through `@theme inline`.
+## Guardrails
+- Do not flatten the source into a generic card grid.
+- Do not swap the color mode unless the source clearly supports it.
+- Preserve the first viewport signal, focal object, and visual density.
+- Keep buttons, cards, and badges aligned to the same radius and border language.

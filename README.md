@@ -1,31 +1,36 @@
-# Forma — landing page
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Single-page marketing site for Forma, an architecture and interior design firm.
-Built with Next.js (App Router), Tailwind CSS v4 and framer-motion.
+## Getting Started
 
-## Run
+First, run the development server:
 
 ```bash
-npm install
-npm run dev      # http://localhost:3000
-npm run build && npm start
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## Edit content
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- `src/data/site.ts` — studio email (used for the mailto inquiry link), address, phone, nav.
-- `src/data/projects.ts` — the six portfolio projects: copy, materials, Unsplash image IDs.
-- `src/data/services.ts` — the services list.
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-Images are hotlinked from Unsplash; swap the photo IDs in `projects.ts` for the firm's own photography when available.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Design system
+## Learn More
 
-The page follows a Hallmark "Portfolio Grid" structure: a masthead, a short statement, a filterable work index with grid and list views, one project told in full, the practice, and a dark inquiry band.
-The locked design system is `design.md` at the project root. Its tokens (colours, Inter and JetBrains Mono type, spacing, radii, easings) live in `src/app/tokens.css`, the only source of colour and font values.
-Each project's schematic plan is drawn from the `plan.rooms` data in `src/data/projects.ts`.
-`.hallmark/log.json` records design choices so future runs rotate away from them.
+To learn more about Next.js, take a look at the following resources:
 
-## Photographs
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-All project photographs are placeholders hotlinked from Pexels and Unsplash, credited inside each project panel. Replace the `photos` entries in `src/data/projects.ts` with the firm's own photography before launch.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
