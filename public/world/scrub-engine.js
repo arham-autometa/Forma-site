@@ -55,6 +55,10 @@
      --sw-accent     default accent (each section overrides via its `accent`)
      --sw-font-display / --sw-font-body
 
+   HOST PAGE CSS (optional)
+     The engine only styles the mounted container. Put document-level resets such as
+     `html, body { margin: 0; overflow-x: hidden; }` in the host stylesheet if wanted.
+
    REQUIREMENTS ON YOUR ASSETS
      - clips encoded native-res, crf~20, -g 8, +faststart, no audio (see pipeline.md)
      - connectors' endpoints are the neighbouring dives' ACTUAL frames (see SKILL Step 5)
@@ -78,9 +82,13 @@ function mountScrollWorld(container, config) {
   const CONN_W = config.connScroll || 0.9;
   const CROSSFADE = (config.crossfade != null) ? config.crossfade : 0.12;  // seam dissolve width (vh)
   const N = SECTIONS.length;
-  if (!N) return;
+  if (!N) return () => {};
 
-  injectCSS();
+  let mounted = true;
+  const releaseCSS = injectCSS();
+  const hadRootClass = container.classList.contains('sw-root');
+  const previousAccent = container.style.getPropertyValue('--sw-accent');
+  const previousAccentPriority = container.style.getPropertyPriority('--sw-accent');
   container.classList.add('sw-root');
 
   // ---- build the interleaved segment chain: dive0, conn0, dive1, … diveN-1 ----
@@ -133,7 +141,8 @@ function mountScrollWorld(container, config) {
   hint.appendChild(el('i'));
   const track = el('div', 'sw-track');
 
-  [sky, scrollbar, topbar, stage, copylayer, route, hint, track].forEach(n => container.appendChild(n));
+  const generatedNodes = [sky, scrollbar, topbar, stage, copylayer, route, hint, track];
+  generatedNodes.forEach(n => container.appendChild(n));
 
   // segment scenes
   SEGMENTS.forEach(s => {
@@ -143,7 +152,8 @@ function mountScrollWorld(container, config) {
     if (poster) img.src = poster;
     scene.appendChild(img); stage.appendChild(scene);
     s.el = scene; s.img = img; s.video = null; s.hasClip = false;
-    s.loading = false; s.ready = false; s.cur = 0; s.target = 0; s.visible = false;
+    s.loading = false; s.failedClips = new Set(); s.abortController = null; s.objectUrl = null;
+    s.ready = false; s.cur = 0; s.target = 0; s.visible = false;
   });
 
   // per-section copy / route / nav
@@ -176,10 +186,12 @@ function mountScrollWorld(container, config) {
   // (where the copy peaks) and moves quicker near the seams. L=0 linear, L=1 full
   // mid-scene pause. f(0)=0, f(1)=1 always, so seam frames are untouched.
   const lingerEase = (x, L) => { L = clamp(L); const c = x - 0.5; return (1 - L) * x + L * (4 * c * c * c + 0.5); };
-  let vh = window.innerHeight, stageX = 0, totalW = 0, activeIndex = -1, ticking = false;
+  let vh = window.innerHeight, stageX = 0, totalW = 0, activeIndex = -1;
   let laidOutW = window.innerWidth;   // width the current layout was computed at (see onResize)
+  let readRafId = null, scrubRafId = null;
 
   function layout() {
+    if (!mounted) return;
     vh = window.innerHeight;
     laidOutW = window.innerWidth;
     stageX = window.innerWidth > 860 ? 4 : 0;
@@ -191,6 +203,7 @@ function mountScrollWorld(container, config) {
   }
 
   function jumpTo(i) {
+    if (!mounted) return;
     const seg = SECTIONS[i]._seg;
     window.scrollTo({ top: seg.start + (seg.end - seg.start) * 0.5, behavior: reduce ? 'auto' : 'smooth' });
   }
@@ -198,28 +211,40 @@ function mountScrollWorld(container, config) {
   function loadClip(s) {
     // Under prefers-reduced-motion we never load the clips at all — the stills stay up
     // and simply cross-dissolve as you scroll. No scrubbed video motion, no decode cost.
-    if (reduce || s.loading || !s.clip) return;
-    s.loading = true;
+    if (!mounted || reduce || s.loading || !s.clip) return;
     // Serve the lighter mobile encode on phones when one was provided.
     const url = (isMobile() && s.clipM) ? s.clipM : s.clip;
-    fetch(url).then(r => r.ok ? r.blob() : Promise.reject(new Error('404')))
+    if (s.failedClips.has(url)) return;
+    s.loading = true;
+    const controller = new AbortController();
+    s.abortController = controller;
+    fetch(url, { signal: controller.signal }).then(r => r.ok ? r.blob() : Promise.reject(new Error(`HTTP ${r.status}`)))
       .then(blob => {
+        if (!mounted || controller.signal.aborted || s.abortController !== controller) return;
         const v = document.createElement('video');
         v.className = 'sw-scene__video';
         v.muted = true; v.playsInline = true; v.preload = 'auto';
         v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
-        v.src = URL.createObjectURL(blob);
-        v.addEventListener('loadedmetadata', () => { s.ready = true; read(); });
+        const objectUrl = URL.createObjectURL(blob);
+        v.src = objectUrl;
+        v.addEventListener('loadedmetadata', () => { if (!mounted) return; s.ready = true; read(); });
         // Reveal the video (hide the still poster) only once a real frame has
         // painted — on iOS a seeked-but-never-played muted video stays blank, so
         // hiding the still on metadata alone would flash an empty scene.
-        v.addEventListener('seeked', () => { s.el.classList.add('has-clip'); }, { once: true });
-        v.addEventListener('loadeddata', () => { try { v.pause(); } catch (e) {} if (userReady) primeVideo(v); });
-        s.el.appendChild(v); s.video = v; s.hasClip = true;
-      }).catch(() => { s.loading = false; });
+        v.addEventListener('seeked', () => { if (mounted) s.el.classList.add('has-clip'); }, { once: true });
+        v.addEventListener('loadeddata', () => { if (!mounted) return; try { v.pause(); } catch {} if (userReady) primeVideo(v); });
+        s.el.appendChild(v); s.video = v; s.objectUrl = objectUrl; s.hasClip = true;
+        s.abortController = null;
+      }).catch(() => {
+        if (!mounted || controller.signal.aborted || s.abortController !== controller) return;
+        s.abortController = null;
+        s.failedClips.add(url);
+        s.loading = false;
+      });
   }
 
   function read() {
+    if (!mounted) return;
     const y = window.scrollY || window.pageYOffset;
     const fade = CROSSFADE * vh;
     let ci = 0;
@@ -233,7 +258,7 @@ function mountScrollWorld(container, config) {
       let outside = 0;
       // The last scene holds past its end so content placed after the film can slide over it.
       if (y < s.start) outside = s.start - y; else if (y > s.end && i < NSEG - 1) outside = y - s.end;
-      const op = smooth(1 - outside / fade);
+      const op = fade === 0 ? (outside === 0 ? 1 : 0) : smooth(1 - outside / fade);
       s.el.style.opacity = op; s.visible = op > 0.001;
       s.el.style.zIndex = (i === ci) ? '120' : String(100 + Math.round(op * 10));
       if (!s.hasClip || !s.ready) {
@@ -270,10 +295,10 @@ function mountScrollWorld(container, config) {
     scrollbarFill.style.transform = `scaleX(${clamp(y / (totalW * vh))})`;
     hint.style.opacity = clamp(1 - y / (0.5 * vh));
     if (particles) particles.style.transform = `translate3d(0, ${-y * 0.05}px, 0)`;
-    ticking = false;
   }
 
   function raf() {
+    if (!mounted) return;
     const eps = isMobile() ? 0.02 : 0.008;   // coarser seek step on phones = fewer decodes
     for (let i = 0; i < NSEG; i++) {
       const s = SEGMENTS[i];
@@ -286,9 +311,9 @@ function mountScrollWorld(container, config) {
       s.cur += (s.target - s.cur) * (reduce ? 1 : 0.18);
       const dur = s.video.duration || 1;
       const t = clamp(s.cur, 0, 0.999) * dur;
-      if (Math.abs(s.video.currentTime - t) > eps) { try { s.video.currentTime = t; } catch (e) {} }
+      if (Math.abs(s.video.currentTime - t) > eps) { try { s.video.currentTime = t; } catch {} }
     }
-    requestAnimationFrame(raf);
+    scrubRafId = requestAnimationFrame(raf);
   }
 
   // iOS needs a user gesture before a muted video will decode/paint reliably. On the
@@ -298,8 +323,8 @@ function mountScrollWorld(container, config) {
   let userReady = false;
   function primeVideo(v) {
     if (!isMobile() || !v) return;
-    try { const p = v.play(); if (p && p.then) p.then(() => { try { v.pause(); } catch (e) {} }).catch(() => {}); }
-    catch (e) {}
+    try { const p = v.play(); if (p && p.then) p.then(() => { try { v.pause(); } catch {} }).catch(() => {}); }
+    catch {}
   }
   function onFirstGesture() {
     if (userReady) return;
@@ -311,7 +336,11 @@ function mountScrollWorld(container, config) {
 
   // Particles are a per-frame cost we can't afford alongside video scrubbing on a phone.
   seedParticles(particles, reduce || coarse);
-  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(read); } }, { passive: true });
+  function onScroll() {
+    if (!mounted || readRafId !== null) return;
+    readRafId = requestAnimationFrame(() => { readRafId = null; read(); });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
   // Mobile browsers fire `resize` every time the URL bar slides in/out. Re-running
   // layout() there rebuilds the track height and yanks the scroll position, so on
   // touch we ignore height-only changes and only relayout when the width actually
@@ -325,7 +354,41 @@ function mountScrollWorld(container, config) {
   window.addEventListener('orientationchange', layout);
   window.addEventListener('load', layout);
   layout();
-  requestAnimationFrame(raf);
+  scrubRafId = requestAnimationFrame(raf);
+
+  return function unmountScrollWorld() {
+    if (!mounted) return;
+    mounted = false;
+
+    if (readRafId !== null) cancelAnimationFrame(readRafId);
+    if (scrubRafId !== null) cancelAnimationFrame(scrubRafId);
+    window.removeEventListener('pointerdown', onFirstGesture);
+    window.removeEventListener('touchstart', onFirstGesture);
+    window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('resize', onResize);
+    window.removeEventListener('orientationchange', layout);
+    window.removeEventListener('load', layout);
+
+    SEGMENTS.forEach(s => {
+      if (s.abortController) s.abortController.abort();
+      s.abortController = null;
+      s.loading = false;
+      if (s.video) {
+        try { s.video.pause(); } catch {}
+        s.video.removeAttribute('src');
+        try { s.video.load(); } catch {}
+      }
+      if (s.objectUrl) URL.revokeObjectURL(s.objectUrl);
+      s.objectUrl = null; s.video = null; s.hasClip = false; s.ready = false;
+    });
+
+    generatedNodes.forEach(n => n.remove());
+    if (!hadRootClass) container.classList.remove('sw-root');
+    if (previousAccent) container.style.setProperty('--sw-accent', previousAccent, previousAccentPriority);
+    else container.style.removeProperty('--sw-accent');
+    SECTIONS.forEach(s => { if (s._seg && SEGMENTS.includes(s._seg)) delete s._seg; });
+    releaseCSS();
+  };
 
   // ---- helpers ----
   function el(tag, cls) { const n = document.createElement(tag); if (cls) n.className = cls; return n; }
@@ -357,13 +420,16 @@ function seedParticles(host, reduce) {
 }
 
 function injectCSS() {
-  if (document.getElementById('sw-css')) return;
+  const existing = document.getElementById('sw-css');
+  if (existing) {
+    if (existing._swEngineOwned) existing._swEngineUsers += 1;
+    return cssRelease(existing);
+  }
   const css = `
   .sw-root{--sw-bg:#F5EDE0;--sw-ink:#241d2b;--sw-ink-soft:#6a6072;--sw-accent:#8a7bb5;
     --sw-font-display:ui-rounded,"SF Pro Rounded","Segoe UI",system-ui,sans-serif;
     --sw-font-body:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
-    color:var(--sw-ink);font-family:var(--sw-font-body);}
-  html,body{margin:0;background:var(--sw-bg,#F5EDE0);overflow-x:hidden;}
+    color:var(--sw-ink);font-family:var(--sw-font-body);background:var(--sw-bg);overflow-x:hidden;}
   .sw-sky{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:var(--sw-bg);}
   .sw-sky__grad{position:absolute;inset:-10%;background:linear-gradient(178deg,color-mix(in srgb,var(--sw-accent) 12%,var(--sw-bg)) 0%,var(--sw-bg) 55%,color-mix(in srgb,var(--sw-accent) 6%,var(--sw-bg)) 100%);}
   .sw-sky__glow{position:absolute;inset:0;background:radial-gradient(60% 42% at 74% 16%,color-mix(in srgb,var(--sw-accent) 22%,transparent),transparent 70%),radial-gradient(46% 34% at 50% 50%,color-mix(in srgb,#fff 45%,transparent),transparent 70%);}
@@ -443,7 +509,19 @@ function injectCSS() {
   // these defaults, regardless of injection order. Enables clean dark themes.
   const style = document.createElement('style'); style.id = 'sw-css';
   style.textContent = '@layer sw {\n' + css + '\n}';
+  style._swEngineOwned = true; style._swEngineUsers = 1;
   document.head.appendChild(style);
+  return cssRelease(style);
+}
+
+function cssRelease(style) {
+  let released = false;
+  return () => {
+    if (released || !style._swEngineOwned) return;
+    released = true;
+    style._swEngineUsers -= 1;
+    if (style._swEngineUsers === 0) style.remove();
+  };
 }
 
 // Expose for module + global use.
